@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     # 'stripe',
     'razorpay',
     'xhtml2pdf',
-    'mathfilters',
+    # 'mathfilters',
     'rest_framework',
     'taggit',
     'widget_tweaks',

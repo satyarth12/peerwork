@@ -1,0 +1,137 @@
+
+.hahaha {
+    width: 1000px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.hahaha .card1 {
+    position: relative;
+    border-radius: 10px;
+}
+
+.hahaha .pro {
+    color: #231e39;
+    background-color: #febb0b;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 3px 7px;
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+
+.hahaha .round {
+    border: 1px solid #03bfcb;
+    border-radius: 50%;
+    padding: 7px;
+    align-items: center;
+
+}
+
+.hahaha .card1 .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #f00;
+    transition: 0.7s;
+    z-index: 1;
+}
+
+.hahaha .card1:nth-child(1) .icon {
+    background: #161748;
+}
+
+.hahaha .card1:nth-child(2) .icon {
+    background: #4aada9;
+}
+
+.hahaha .card1:nth-child(3) .icon {
+    background:#6eadd4;
+}
+
+
+.hahaha .card1 .icon .fa {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 80px;
+    transition: 0.7s;
+    color: #fff;
+}
+
+.hahaha .card1 .face {
+    width: 300px;
+    height: 200px;
+    transition: 0.5s;
+}
+
+.hahaha .card1 .face.face1 {
+    position: relative;
+    background: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    transform: translateY(100px);
+}
+
+.hahaha .card1:hover .face.face1{
+    background: #ff0057;
+    transform: translateY(0px);
+}
+
+.hahaha .card1 .face.face1 .content {
+    opacity: 1;
+    transition: 0.5s;
+}
+
+.hahaha .card1:hover .face.face1 .content {
+    opacity: 1;
+}
+
+.hahaha .card1 .face.face1 .content i{
+    max-width: 100px;
+}
+
+.hahaha .card1 .face.face2 {
+    position: relative;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+    transform: translateY(-100px);
+}
+
+.hahaha .card1:hover .face.face2{
+    transform: translateY(0);
+}
+
+.hahaha .card1 .face.face2 .content p{
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #414141;
+}
+
+.hahaha .card1 .face.face2 .content h3{
+    margin: 0 0 10px 0;
+    padding: 0;
+    color: #fff;
+    font-size: 24px;
+    text-align: center;
+    color: #414141;
+} 
+
+.hahaha a{
+    text-decoration: none;
+    color: #414141;
+}
