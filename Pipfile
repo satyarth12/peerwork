@@ -38,6 +38,7 @@ django-taggit-autosuggest = "*"
 django-grappelli = "*"
 gunicorn = "*"
 django-heroku = "*"
+whitenoise = "*"
 
 [dev-packages]
 
