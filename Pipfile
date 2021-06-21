@@ -37,6 +37,7 @@ zipp = "==3.3.0"
 django-taggit-autosuggest = "*"
 django-grappelli = "*"
 gunicorn = "*"
+django-heroku = "*"
 
 [dev-packages]
 
