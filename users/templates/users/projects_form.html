@@ -1,0 +1,81 @@
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+ <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/animate/animate.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/css-hamburgers/hamburgers.min.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/daterangepicker/daterangepicker.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/css/util.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/css/main.css'%}">
+
+
+<style type="text/css">
+	body{
+	background:#F6F6F8;
+}
+</style>
+
+<div class="container contact100 col-lg-6" style="margin-top: 100px; box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22); border-radius: 20px; background-color: white;">
+
+			<form method="POST" enctype="multipart/form-data" class="contact100-form validate-form" id="ProjectsCreateView">
+				{%csrf_token%}
+				<div class="container-fluid text-center mb-4">
+				{% for field in form.visible_fields %}
+			      {% if field.errors %}
+		      		<h2 style="color: red;">Errors</h2>
+		            <ul>
+		              {% for error in field.errors %}
+		                <li class="text-center"><small><mark>{{field.name|capfirst}}</mark> : {{ error }}</small></li>
+		              {% endfor %}
+		            </ul>
+		          {% endif %}
+			    {% endfor %}
+			    </div>
+
+				<span class="text-center contact100-form-title" style="margin-bottom: 50px;">
+					Portfolio Projects
+				</span>
+
+
+				<div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Organisation is required">
+					<span class="label-input100">Project Title</span>
+					<input class="input100" type="text" name="project_title" placeholder="Enter your Project Title, in short." id="id_project_title" value="{{object.project_title}}" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="From date is required">
+					<span class="label-input100">Project Link</span>
+					<input class="input100" type="url" name="project_link" id="id_project_link" placeholder="Specify your project link" value="{{object.project_link}}" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100  validate-input" data-validate = "Designation is required">
+					<span class="label-input100">Description</span>
+					<input class="input100" type="text" name="project_description" placeholder="Explain more about the project." id="id_project_description" value="{{object.project_description}}" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" type="submit">
+						<span>
+							Submit
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+			
+</div>	
+
+
+
+{%endblock%}

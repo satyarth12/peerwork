@@ -1,0 +1,125 @@
+{%extends 'blog/base.html'%}
+{% load octicons %}
+{%load crispy_forms_tags%}
+{%load static%}
+
+
+
+{%block content%}
+
+{%include 'blog/card.html'%}
+
+
+<style type="text/css">
+  .box h5,h3,h2,h4{
+  color: white;
+  font-size: 1.5rem;
+}
+</style>
+{%if user.userprofile.rate%}
+  {%if posts_rate%}
+  <section id="services" class="section-bg" style="margin-top: 100px">
+          
+          <div class="container-fluid">
+            <header class="section-header">
+              <h3><i class="ion-ios-star" style="color:#161748;"></i> Latest Trending Projects</h3>
+            </header>
+          <div class="row my-4">
+            
+            {%for project in posts_rate%} 
+              {%if project.budget >= user.userprofile.rate and not project.accepted%}
+                {%if project.Type == user.userprofile.experience%}
+                  <div class="col-md-4 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box" style="background-image:url('{%static 'blog/images/stars.jpg'%}');">
+                      <h5 class="project_title"><a href="{%url 'post-detail' project.slug%}"><img src="{%static 'blog/images/web.png'%}" height="20px"> {{ project.title }}</a></h5>
+                      <h3 style="font-size: 18px;"><a href="{%url 'user-posts' project.user.id%}"><img src="{{project.user.image.url}}" style="border-radius: 50%;" height="30px"> {{ project.user.username }}</a> {%if user.verify.check%} <span class="badge badge-pill badge-warning">Verified</span> {%endif%}</h3>
+                      <hr>
+                      
+                      <h6 style="color: white;"><small>Expertise : </small><b>{{ project.get_Type_display }}</b> | {%for sub in project.sub_type.all%}<span class="badge badge-pill badge-light" style="color: black;">{{sub}}</span>{%endfor%}<br></h6>
+                      <h6 style="color: white;"><br><small>Time Period : </small><b>{{ project.months}} months {{project.days}} days</b><br><br><b><small>Skills: <b style="white-space: nowrap;">{{ project.skills_required}}</b></small></b></h6>
+                      <hr>
+                      
+                      <h4 class="text-center">Budget : <i class="fa fa-inr"> {{project.budget}}</i></h4>
+                    </div>
+                  </div>
+
+              {%endif%}
+              {%endif%}  
+            {%endfor%}
+
+          </div>
+          <div class="text-center">
+          <a href="{%url 'allproject'%}" style="color:#161748;"><strong><mark>All projects</mark></strong></a>
+          </div>
+      </div>
+
+  </section>
+
+  {%endif%}
+
+{%else%}
+    <section id="services" class="section-bg" style="margin-top: 100px">
+      <div class="container-fluid">
+               <header class="section-header">
+                  <h3><b>Sorry, No Projects To Show Now.</b><br>Please edit your <a href="{%url 'user_profile' %}">Profile</a></h3>
+
+                </header>
+    </section>
+
+{%endif%}
+
+
+<section id="services" class="section-bg" style="margin-top: 100px;">
+      <div class="container-fluid">
+        {%if posts%}
+        <header class="section-header">
+          <h3><i class="ion-ios-star" style="color:#161748;"></i> Projects based on your Expertise.</h3>
+        </header>
+        {%else%}
+           <header class="section-header">
+              <h3><b>Sorry, No Projects To Show Now.</b><br>Please Try Editing Your Pofile And Resume</h3>
+
+            </header>
+        {%endif%}
+        
+
+      <div class="row my-4">
+          
+          {%for project in posts%} 
+          {%if not project.accepted%}
+          {%for tags in user.userprofile.professional_title.all%}
+            {%for sub_types in project.sub_type.all%}
+            {%if sub_types == tags%}
+              <div class="col-md-4 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+                    <div class="box" style="background-image:url('{%static 'blog/images/stars.jpg'%}');">
+                      <h5 class="project_title"><a href="{%url 'post-detail' project.slug%}"><img src="{%static 'blog/images/web.png'%}" height="20px"> {{ project.title }}</a></h5>
+                      <h3 style="font-size: 18px;"><a href="{%url 'user-posts' project.user.id%}"><img src="{{project.user.image.url}}" style="border-radius: 50%;" height="30px"> {{ project.user.username }}</a> {%if user.verify.check%} <span class="badge badge-pill badge-warning">Verified</span> {%endif%}</h3>
+                      <hr>
+                      
+                      <h6 style="color: white;"><small>Expertise : </small><b>{{ project.get_Type_display }}</b> | {%for sub in project.sub_type.all%}<span class="badge badge-pill badge-light" style="color: black;">{{sub}}</span>{%endfor%}<br></h6>
+                      <h6 style="color: white;"><br><small>Time Period : </small><b>{{ project.months}} months {{project.days}} days</b><br><br><b><small>Skills: <b style="white-space: nowrap;">{{ project.skills_required}}</b></small></b></h6>
+                      <hr>
+                      
+                      <h4 class="text-center">Budget : <i class="fa fa-inr"> {{project.budget}}</i></h4>
+                    </div>
+                  </div>
+            {%endif%}  
+            {%endfor%}
+          {%endfor%}
+          {%endif%}
+          {%endfor%}
+
+      </div>
+
+      </div>
+</section>
+
+
+
+
+
+
+
+{%endblock content%}
+
+

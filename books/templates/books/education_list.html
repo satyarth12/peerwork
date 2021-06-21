@@ -1,0 +1,230 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+
+{% block javascript %}
+  <script src="{% static 'books/js/books.js' %}"></script>
+  <script src="{% static 'books/js/work.js' %}"></script>
+  <script src="{% static 'books/js/project.js' %}"></script>
+  <script src="{% static 'books/js/profile.js' %}"></script>
+  <script src="{% static 'books/js/preference.js' %}"></script>
+  <script src="{% static 'books/js/link.js' %}"></script>
+  <script src="{% static 'books/js/chosen.jquery.js' %}" type="text/javascript"></script>
+
+  
+{% endblock %}
+
+
+{% block content %}
+
+<style type="text/css">
+  body{
+  background:#F6F6F8;
+}
+  .ya{
+    color:black;
+    margin-left: 30px
+  }
+  .ab{
+    color:black;
+  }
+
+
+  table{        
+    background-color: white;
+    border-radius: 10px;
+    border-collapse:separate; 
+    box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.20);
+} 
+
+tr{  
+    background-color: #4056A1;
+    color: white;
+  }
+</style>
+
+<div class="container col-lg-12">
+  <div class="container-fluid">
+    <div class="card" data-aos="fade-up" data-aos-offset="10" style=" border-radius: 20px; box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22); background-color: #e1e8f0;">
+          <div class="card-body text-center">
+            <div class="h4 mt-0 title" style="color: black; font-weight: 10000"><img class="ya" src="{{user.image.url}}" alt="Image"/ width="80px" height="80px">  {{user.first_name}} {{user.last_name}} </div>
+
+            <h6>{%for tag in user.userprofile.professional_title.all%} <span class="badge badge-pill badge-danger">{{tag}}</span> {%endfor%}</h6>
+            <h6 class="my-3">{{user}} || {{user.username}}</h6>
+            <h6>{{user.phone}}</h6>
+            <h6>{{user.userprofile.city}}</h6>
+            <h6>{{user.userprofile.course}}</h6>
+          </div>
+
+    </div>
+  </div>
+</div>
+
+
+  
+
+
+
+
+  <p>
+    <div class="h2 text-center mb-4 title">
+      <img src="{%static 'blog/images/skill.png'%}" height="60px">
+      <button type="button" class="btn btn-primary btn-sm mt-1 mb-1 js-create-preference" data-url="{% url 'preference_create' %}" style="background-color:#161748;color: white;margin-left: 10px">
+        Add Skillsets  
+      </button> 
+    </div>
+  </p>
+
+<table class="preference table main" id="preference-table">
+ 
+    {% include 'books/preference/partial_preference_list.html' %}
+
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-preference">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+<p>
+  <hr>
+    <div class="h2 text-center mb-4 title">
+      <img src="{%static 'blog/images/project.png'%}" height="60px">
+      <button type="button" class="btn btn-primary btn-sm mt-1 mb-1 js-create-project" data-url="{% url 'project_create' %}" style="background-color:#161748;color: white;margin-left: 10px">
+        Add Portfolio Projects 
+      </button> 
+    </div>
+  </p>
+
+<table class="project table main" id="project-table">
+  <div class="container">
+    {% include 'books/project/partial_project_list.html' %}
+  </div>
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-project">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+
+
+
+
+<p>
+    <div class="h2 text-center mb-4 title">
+      <img src="{%static 'blog/images/edu.png'%}" height="60px">
+      <button type="button" class="btn btn-primary btn-sm mt-1 mb-1 js-create-book" data-url="{% url 'education_create' %}" style="background-color:#161748;color: white;margin-left: 10px">
+        Add Education  
+      </button> 
+    </div>
+  </p>
+
+<table class="table main" id="book-table">
+ 
+    {% include 'books/includes/partial_education_list.html' %}
+
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-book">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+
+
+
+
+<p>
+  <hr>
+    <div class="h2 text-center mb-4 title">
+      <img src="{%static 'blog/images/work.png'%}" height="60px">
+      <button type="button" class="btn btn-primary btn-sm mt-1 mb-1 js-create-work" data-url="{% url 'work_create' %}" style="background-color:#161748;color: white;margin-left: 10px">
+        Add Work Experience  
+      </button> 
+    </div>
+  </p>
+
+<table class="work table main" id="work-table">
+  <div class="container">
+    {% include 'books/work/partial_work_list.html' %}
+  </div>
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-work">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+
+
+
+
+  <p>
+    <hr>
+    <div class="h2 text-center mb-4 title">
+      <img src="{%static 'blog/images/cert.png'%}" height="60px">
+      <button type="button" class="btn btn-primary btn-sm mt-1 mb-1 js-create-profile" data-url="{% url 'profile_create' %}" style="background-color:#161748;color: white;margin-left: 10px">
+        Add Achievments
+      </button> 
+    </div>
+  </p>
+
+<table class="profile table main" id="profile-table">
+  <div class="container">
+    {% include 'books/profile/partial_profile_list.html' %}
+  </div>
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-profile">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+
+
+
+  <p>
+    <hr>
+    <div class="h2 text-center mb-4 title">
+      <img src="{%static 'blog/images/cert.png'%}" height="60px">
+      <button type="button" class="btn btn-primary btn-sm mt-1 mb-1 js-create-link" data-url="{% url 'link_create' %}" style="background-color:#161748;color: white;margin-left: 10px">
+        Add Work link
+      </button> 
+    </div>
+  </p>
+
+<table class="link table main" id="link-table">
+  <div class="container">
+    {% include 'books/link/partial_link_list.html' %}
+  </div>
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-link">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}

@@ -1,0 +1,84 @@
+{%load static%}
+
+<link href="{% static 'blog/styles/cards.css' %}"  rel="stylesheet">
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+        crossorigin="anonymous">
+
+<div class="container hahaha" style="background-image:url('{%static 'blog/images/alien.png'%}'); margin-top: 100px;">
+        <div class="card1">
+            <div class="face face1">
+                <div class="content">
+
+                    <div class="icon">
+                        {%if user.verify.check%}
+                        <span class="pro">Verified</span>
+                        {%endif%}
+                        <img
+                        class="round fa"
+                        src="{{user.image.url}}"
+                        alt="user"
+                        height='120px'
+                        width="120px"
+
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <h3>
+                        <i class="fa fa-paper-plane"></i> <mark><a href="{%url 'profile'%}">{{user.username}}</a></mark>
+                    </h3>
+                    
+                    <h5 class="text-center"><i class="fa fa-user"></i> {{user.first_name}} {{user.last_name}}</h5>
+                    
+                    {%if user.userprofile.professional_title%}
+                    <p>{%for tag in user.userprofile.professional_title.all%}
+                        <a href="javascript:void();" class="badge badge-dark badge-pill" style="color: white;"> {{tag}}</a>
+                        {%endfor%}
+                    </p>
+                    {%endif%}
+                    <p><a href="{%url 'resume'%}" class="badge badge-danger badge-pill" style="color: white;">Edit Resume</a></p>
+                </div>
+            </div>
+        </div>
+        <div class="card1">
+            <div class="face face1">
+                <div class="content">
+                    <div class="icon">
+                        <i class="fa fa-id-badge" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    {%if not user.verify.check%}
+                    <h6 class="text-center">
+                        <mark>Verify ID to unlock all features</mark>
+                    </h6>
+                    <div class="text-center"><a href="{%url 'verify'%}"><img src="{%static 'blog/images/account.png'%}" height="100px" width="100px" ></a></div>
+                     <p><font face="Verdana" size="2" style="color: black;">It Generally takes 12-14 hrs for the document verification.</font></p>
+                    {%else%}
+                     <h6>You are verified</h6>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+        <div class="card1">
+            <div class="face face1">
+                <div class="content">
+                    <div class="icon">
+                        <i class="fa fa-github-square" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="face face2">
+                <div class="content">
+                    <h3>
+                        <a href="https://github.com/atom888" target="_blank">atom888</a>
+                    </h3>
+                    <p>This is where I share code and work on projects.</p>
+                </div>
+            </div>
+        </div>
+</div>

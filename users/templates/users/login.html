@@ -1,0 +1,80 @@
+{%extends 'blog/base2.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+
+    <link rel="stylesheet" href="{%static 'blog/authasset/fonts/material-icon/css/material-design-iconic-font.min.css'%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{%static 'blog/authasset/css/style.css'%}">
+    <style type="text/css">
+        
+    .showPassword{
+        cursor: pointer;
+        transition: all;
+    }
+    .showPassword:hover{
+        transform: scale(1.1);
+    }
+       body{
+        background:#F6F6F8;
+    }
+
+    </style>
+    <div class="main">
+
+        <div class="container emp-profile">
+              {%if messages%}
+                  {%for message in messages%}
+                    <div class="alert alert-{{message.tags}}">{{message}}</div>
+                  {%endfor%}
+                {%endif%}
+        
+        </div>  
+
+        <!-- Sing in  Form -->
+        <section class="sign-in" >
+            <div class="container" style="box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);">
+                <div class="signin-content">
+                    <div class="signin-image">
+                        <figure><img src="{%static 'blog/images/signin-image.jpg'%}" alt="sing up image"></figure>
+                        <a href="{%url 'register'%}" class="signup-image-link"><mark>Create an account</mark></a>
+                    </div>
+
+                    <div class="signin-form">
+                        <h2 class="form-title">Log In</h2>
+                        <form id="login-form" method="post" action="{% url 'login' %}">
+                        	{% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="email" name="username" id="id_username" placeholder="Your Email"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="id_password"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password" id="id_password" placeholder="Password"/>
+                                <small class="float-right pr-2 showPassword" style="font-weight: 700;">SHOW</small>
+                            </div>
+                            <div class="form-group">
+                                <label for="remember-me" class="label-agree-term"><span><span></span></span><a href="{%url 'reset_password'%}">Forgot Password</a></label>
+                            </div>
+                            {% if form.errors %}
+			                    <p class=" label label-danger">
+			                        Your username and password didn't match. 
+			                        Please try again.
+			                    </p>
+			                {% endif %}
+                            <div class="form-group form-button">
+                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in"/>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+<script src="{%static 'blog/js/login.js'%}"></script>
+
+
+{%endblock content%}	
+

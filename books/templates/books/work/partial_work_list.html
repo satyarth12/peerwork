@@ -1,0 +1,27 @@
+{% for work in works %}
+
+<tr class="container-fluid text-center my-5 mb-5" style="box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.10);">
+    <td>
+    <h5>In {{ work.organisation }}, was {{ work.designation }}</h5>
+    <p class="">{{ work.description }}</p>
+    <h6>{{ work.From }}-{{ work.To }}</h6>
+    
+   
+    
+    <button type="button"
+            class="btn btn-warning btn-sm js-update-work"
+            data-url="{% url 'work_update' work.id %}">
+      <span class="glyphicon glyphicon-pencil"></span> Edit
+    </button>
+    <button type="button"
+            class="btn btn-danger btn-sm js-delete-work"
+            data-url="{% url 'work_delete' work.id %}">
+      <span class="glyphicon glyphicon-trash"></span> Delete
+    </button>
+    </td>
+</tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center" style="color:black;"><h5>No Work Experience Added</h5></td>
+  </tr>
+{% endfor %}

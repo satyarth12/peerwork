@@ -1,0 +1,13 @@
+{% for product in products %}
+  <tr>
+    <td>{{ product.name }}</td>
+    <td>{{ product.image1 }}</td>
+    <td>{{ product.image2 }}</td>
+  </tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center bg-warning">No product</td>
+  </tr>
+{% endfor %}
+
+

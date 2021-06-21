@@ -1,0 +1,28 @@
+{% for link in links %}
+<tr class="container-fluid haha text-center my-5 mb-2" style="box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.10); background-color: white;">
+    <td>
+
+    <h6><a href="#" class="badge badge-info" style="background-color: #4056A1; color: white;" >{{link.blog_link}}</a></h6>
+    <h6><a href="#" class="badge badge-info" style="background-color: #4056A1; color: white;" >{{link.github_link}}</a></h6>
+    <h6><a href="#" class="badge badge-info" style="background-color: #4056A1; color: white;" >{{link.playstore_link}}</a></h6>
+    <h6><a href="#" class="badge badge-info" style="background-color: #4056A1; color: white;" >{{link.other_link}}</a></h6>
+    </td>
+    <td>
+    <button type="button"
+            class="btn btn-warning btn-sm js-update-link"
+            data-url="{% url 'link_update' link.id %}">
+      <span class="glyphicon glyphicon-pencil"></span> Edit
+    </button>
+    <button type="button"
+            class="btn btn-danger btn-sm js-delete-link"
+            data-url="{% url 'link_delete' link.id %}">
+      <span class="glyphicon glyphicon-trash"></span> Delete
+    </button>
+    </td>
+</tr>
+
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center mb-4" style="color:black;"><h5>No Links Added</h5></td>
+  </tr>
+{% endfor %}

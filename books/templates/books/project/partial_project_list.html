@@ -1,0 +1,26 @@
+{% for project in projects %}
+<tr class="container-fluid text-center my-5 mb-5">
+    <td>
+    <h5>{{ project.project_title }} </h5>
+    <h6>{{ project.project_description }}</h6>
+    <h6>{{ project.project_link}}</h6>
+    
+   
+    
+    <button type="button"
+            class="btn btn-warning btn-sm js-update-project"
+            data-url="{% url 'project_update' project.id %}">
+      <span class="glyphicon glyphicon-pencil"></span> Edit
+    </button>
+    <button type="button"
+            class="btn btn-danger btn-sm js-delete-project"
+            data-url="{% url 'project_delete' project.id %}">
+      <span class="glyphicon glyphicon-trash"></span> Delete
+    </button>
+    </td>
+</tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center" style="color:black;"><h5>No Portfolio Projects Added</h5></td>
+  </tr>
+{% endfor %}

@@ -1,0 +1,25 @@
+{% for education in educations %}
+<tr class="text-center haha container-fluid my-5 mb-5">
+    <td>
+    <h5><strong>{{ education.get_institution_type_display }}</strong>, in {{ education.course }}, from {{ education.institution_name }}</h5>
+    <h6>with {{ education.score }} score from  {{ education.start_year }}-{{ education.end_year }} </h6>
+    
+   
+    
+    <button type="button"
+            class="btn btn-warning btn-sm js-update-book"
+            data-url="{% url 'education_update' education.id %}">
+      <span class="glyphicon glyphicon-pencil"></span> Edit
+    </button>
+    <button type="button"
+            class="btn btn-danger btn-sm js-delete-book"
+            data-url="{% url 'education_delete' education.id %}">
+      <span class="glyphicon glyphicon-trash"></span> Delete
+    </button>
+    </td>
+</tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center mb-4" style="color:black;"><h5>No Education Added</h5></td>
+  </tr>
+{% endfor %}

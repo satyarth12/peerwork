@@ -1,0 +1,188 @@
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%block content%}
+{%load static%}
+  	<link rel="stylesheet" type="text/css" href="{% static 'blog/resume/css/main.css'%}">
+  	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+	<style type="text/css">
+
+body{
+	background:#F6F6F8;
+}
+
+	.container-fluid header{
+		text-align: center;
+	}
+
+	.form{
+		background:white;
+	}
+
+	.form-group{
+		margin-top: 40px
+	}
+
+	#div_id_Type, #div_id_title, #div_id_requirements, #div_id_skill_tags, #div_id_role, #div_id_days,#div_id_months,#div_id_budget,#div_id_visibility,#div_id_paid, #div_id_mob,#div_id_for_institute,#div_id_benefits,#div_id_currency,#div_id_sub_type,#div_id_skills_required {
+		font-family: "Trebuchet MS", Helvetica, sans-serif;
+		font-size: 1.3rem;
+	}
+
+	#id_Type,#id_title, #id_requirements, #id_skill_tags, #id_role, #id_days,#id_months,#id_budget,#id_visibility,#id_paid,#id_mob,#id_for_institute,#id_benefits,#id_sub_type,#id_skills_required{
+	font-weight: 600;
+    color: #0062cc;
+
+
+	}
+
+	.ha{
+		box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22); 
+		border-radius: 15px;
+	}
+
+	#tags {
+	  max-width: 250px;
+	  margin: 2.5em auto;
+	}
+</style>
+
+<div class="container-fluid" style="margin-top: 100px;">
+	<div class="container-fluid" style="background-color: #161748;color: white;">
+		<legend class="text-center"><h2><img src="{%static 'blog/images/management.png'%}">Share your project that needs to be done	</h2></legend>
+		<p class="text-center my-4" style="padding-bottom: 10px; color: white;"><font face="Verdana" size="2">Contact skilled freelancers within minutes. View profiles, ratings, portfolios and chat with them. Pay the freelancer only when you are 100% satisfied with their work</font></p>
+	</div>
+	{%if user.verify.check and user.phone%}
+	<form method="POST" enctype="multipart/form-data" id="projectform">
+	  		{%csrf_token%}
+	  		<div class="row">
+	  		<div class="col-md-9">
+	  		<fieldset class="form-group" >
+	  				<div class="ha form container mb-3 p-5" style="box-shadow: 0 0 5px #888;">
+	  					<header><h3><mark style="background-color:#2E9CCA; border-radius: 5%; ">Project's Basic Details</mark></h3></header>
+
+		               <div class="form-row">
+					      <div class="form-group col-md-6 pr-5 mb-0">
+					        {{ form.title|as_crispy_field }}
+					      </div>
+					      <div class="form-group col-md-6 mb-0">
+					        {{ form.Type|as_crispy_field }}
+					      </div>
+					    </div>
+					    <hr>
+					    	{{form.sub_type|as_crispy_field}}
+					    <hr>
+		                {{ form.requirements|as_crispy_field}}
+
+		                
+
+		                {{ form.role|as_crispy_field}}
+               		 </div>
+
+	                <div class="ha form container mb-3 p-5 my-5" style="box-shadow: 0 0 5px #888; background-color:">
+	                	<header><h3><mark style="background-color:#2E9CCA; border-radius: 5%; ">Criteria Fields</mark></h3></header>
+
+					    
+
+					    <div class="form-row">
+
+		    			  <div class="form-group col-md-1 mb-0">
+		    			  	{{form.currency|as_crispy_field}}
+		    			  </div>
+					      <div class="form-group col-md-4 pr-5 mb-0">
+					        {{ form.budget|as_crispy_field }}
+					      </div>
+					      <div class="form-group col-md-3 mb-0">
+					        {{ form.days|as_crispy_field }}
+					      </div>
+					      <div class="form-group col-md-3 mb-0">
+					        {{ form.months|as_crispy_field }}
+					      </div>
+					      <hr>
+					   	</div>
+
+					    <hr>
+
+
+					      <div class=" form-row">
+						      
+
+							   <div class="form-group col-md-12 mb-0">
+						        {{ form.skills_required|as_crispy_field }}
+						      </div>
+					      </div>
+
+					      <hr>
+
+					    <div class="form-row">
+					      <div class="form-group col-md-12 mb-0">
+					        {{form.benefits|as_crispy_field}}
+					      </div>
+					      
+					    </div>
+					    {{ form.terms|as_crispy_field}}
+
+					    {%if friend%}
+					    	{%for pro in friend%}
+					  			{%if object == pro.ongoing_project%}
+					  				<div class="alert alert-info text-center" role="alert">
+									  This project is live so you can't update the data.
+									</div>
+				  				{%else%}
+							    <div class="container-contact100-form-btn my-4">
+									<button class="contact100-form-btn mb-2" type="submit">
+										<span>
+											Submit
+											<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+										</span>
+									</button>
+								</div>
+								{%endif%}
+							{%endfor%}
+						{%else%}
+							<div class="container-contact100-form-btn my-4">
+								<button class="contact100-form-btn mb-2" type="submit">
+									<span>
+										Submit
+										<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+									</span>
+								</button>
+							</div>
+						{%endif%}
+				    </div>		
+	  				
+	  		</fieldset>	
+  		</div>
+
+
+	  		 	<div class="col-md-3" style="margin-top: 35px;">
+			      <div class="content-section">
+			          <ul class="list-group">
+			            <li class="list-group-item "><h5 class="text-center mb-3"><i class="fa fa-lightbulb-o" style="color: red;"></i> Post Projects For FREE</h5>Post your project by giving certain informations about it. Select relevant <strong>Skills</strong>, set a realistic <strong>Budget</strong>, required professional <strong>Domain</strong> and <strong>many more</strong> so that we can notify relevant Freelancers to send you proposals</li>
+			            <hr>
+			            <li class="list-group-item "><h5 class="text-center mb-3"><i class="fa fa-check-circle-o" style="color: orange;"></i> Shortlist and Select</h5>Shortlist the Student Freelancer's Proposals you like. You can check Freelancers' previous works and feedback on their profiles to select the most suitable Freelancer within your budget.</li>
+			            <hr>
+			            <li class="list-group-item"><h5 class="text-center mb-3"><i class="fa fa-credit-card-alt" style="color: black;"></i> Deposit And Get Started</h5>Once you've finalized the Freelancer, award the Project to him on Peerwork using Peerwork's Security Deposit. This ensures that your <strong>deposit is kept safe with us</strong> and you get a <strong>full refund</strong> if the work is not done to your expectations.</li>
+			            <hr>
+			            <li class="list-group-item"><h5 class="text-center mb-3"><i class="fa fa-money" style="color: blue;"></i> Release Payments</h5>Release the payment to the Freelancer once the work is complete and you are 100% satisfied. We release the payment to the Freelancer only once you approve.</li>
+			          </ul>
+			        
+			      </div>
+			    </div>
+		</div>
+	</form>	
+	{%else%}
+	<div class="alert alert-danger text-center" role="alert" style="margin-top: 45px;">
+	  Please submit your <a href="{%url 'verify'%}" class="alert-link"><button class="btn btn-primary">student id</button></a> and get yourself verified to start posting your project ideas.
+	</div>
+	<h6 class="text-center">AND</h6>
+	<div class="alert alert-info text-center my-3" role="alert">
+	 Some <a href="{%url 'profile'%}" class="alert-link"><button class="btn btn-primary">profile</button></a> details are missing
+	</div>
+	{%endif%}
+</div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="{%static 'blog/js/sub_type.js'%}"></script>
+<script src="{%static 'blog/js/skill.js'%}"></script>
+{%endblock%}
+

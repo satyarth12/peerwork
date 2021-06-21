@@ -1,0 +1,324 @@
+<div class="section mb-5">
+  <div class="container cc-education">
+    {%if preference_list%}
+    {%for pref in preference_list%}
+    <div class="h2 text-center mb-4 title"><img src="{%static 'blog/images/skill.png'%}" height="60px"> Skillsets <a class="btn btn-sm mt-1 mb-1" href="{%url 'pref-update' pref.id%}" style="background-color:#161748;color: white;margin-left: 10px">Update Skills</a></div>
+    
+    {%endfor%}
+    
+      <div class="row">
+        
+        <div class="col-md-auto" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+            
+            {%for pref in preference_list%}
+            <div class="h4 text-center" style="box-shadow: 0px 0px 5px #888">{{ pref.get_freelancing_display }}<br></div>
+            {%endfor%}
+            
+
+
+      
+
+      {%else%}
+        <div class="h2 text-center mb-4 title"><img src="{%static 'blog/images/skill.png'%}" height="60px"> Skillsets <a class="btn btn-sm mt-1 mb-1" href="{%url 'pref-create'%}" style="background-color:#161748;color: white;margin-left: 10px">Add Skills</a></div>
+    
+
+      {%endif%}
+          
+        </div>
+      </div>
+  
+
+    
+   
+  </div>  
+  <hr>
+</div>
+
+
+
+
+
+
+
+
+
+
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+
+<style type="text/css">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Bootstrap 4 Multi-Select Plugin Demo</title>
+  <link href="https://www.jqueryscript.net/css/jquerysctipttop.css?v3" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <style>
+
+  #carbonads {
+    display: block;
+    overflow: hidden;
+    max-width: 728px;
+    position: relative;
+    font-size: 50px;
+    box-sizing: content-box;
+  }
+
+  #carbonads > span {
+    display: block;
+  }
+
+  #carbonads a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  #carbonads a:hover {
+    color: inherit;
+  }
+
+  .carbon-wrap {
+    display: flex;
+    align-items: center;
+  }
+
+  .carbon-img {
+    display: block;
+    margin: 0;
+    line-height: 1;
+  }
+
+  .carbon-img img {
+    display: block;
+    height: 90px;
+    width: auto;
+  }
+
+  .carbon-text {
+    display: block;
+    padding: 0 1em;
+    line-height: 1.35;
+    text-align: left;
+  }
+
+  .carbon-poweredby {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 6px 10px;
+
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 600;
+    font-size: 8px;
+    border-top-left-radius: 4px;
+    line-height: 1;
+    color:#aaa !important
+  }
+  
+  @media only screen and (min-width: 320px) and (max-width: 759px) {
+    .carbon-text {
+      font-size: 14px;
+    }
+  }
+
+
+  
+.collapsible {
+  background-color: #777;
+  color: white;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
+
+.active, .collapsible:hover {
+  background-color: #555;
+}
+
+.collapsible:after {
+  content: '\002B';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "\2212";
+}
+
+.content {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+} 
+</style>
+
+<div class="container fluid col-lg-6" style="margin-top: 100px;">
+
+<form method="POST" enctype="multipart/form-data">
+        {%csrf_token%}
+        <fieldset class="form-group">
+          <legend class="border-bottom text-center mb-4">What are the main skills that you have?</legend>
+
+           <div id="jquery-script-menu">
+                        </div>
+                        <div class="container">
+
+                            <select name="freelancing" id="id_freelancing" class="form-control"  multiple="multiple" style="display: none;" value="{{user.freelancing}}">
+                            <option value="1" style="margin-left: 10px">Advertising</option>
+                            <option value="2">Marketing</option>
+                           
+                            </select>
+                        </div>
+                        <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha384-vk5WoKIaW/vJyUAd9n/wmopsmNhiy+L2Z+SBxGYnUkunIxVxAv/UtMOhba/xskxh" crossorigin="anonymous"></script>
+
+                        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+
+                        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+                        <script src="{%static 'blog/BsMultiSelect.js'%}"></script>
+
+                        <script>$("select").bsMultiSelect({cssPatch : {
+                                           choices: {columnCount:'3' },
+                                        }});
+                        </script> 
+
+          
+          
+            
+        </fieldset> 
+        <div class="form-group">
+          <button class="btn btn-outline-info" type="submit">Update</button>
+          
+        </div>
+</form> 
+</div>
+</div>
+
+
+
+{{form}}
+
+{%endblock%}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{%if posts%}
+<section id="services" class="section-bg" style="margin-top: 100px;">
+      <div class="container-fluid">
+        {%if posts%}
+        <header class="section-header">
+          <h3>Recent Added Projects.</h3>
+        </header>
+        {%else%}
+           <header class="section-header">
+              <h3><b>Sorry, No Projects To Show Now.</b><br>Please Try Editing Your Pofile And Resume</h3>
+
+            </header>
+        {%endif%}
+        
+
+        <div class="row">
+          
+      {%for project in posts%}  
+          <div class="col-md-4 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+            <div class="box">
+              
+              <div class="ya text-center">
+                  {%if project.Type == 'Programming & Development'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/programming.png'%}">
+                 
+                 {%elif project.Type == 'Graphics & Design'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/draw.png'%}">
+                 
+                 {%elif project.Type == 'Animation & Media'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/video.png'%}">
+                 
+                 {%elif project.Type == 'Photography & Video'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/photo.png'%}">
+                 
+                 {%elif project.Type == 'Marketing'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/teamwork.png'%}">
+                 
+                  {%elif project.Type == 'Soft Skills'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/manager.png'%}">
+                 
+                 {%elif project.Type == 'Hospitality'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/handshake.png'%}">
+                 
+                  {%elif project.Type == 'Customer Service'|stringformat:"s"%}
+                  
+                    <img src="{%static 'blog/images/customer.png'%}">
+                 
+                 {%elif project.Type == 'Legal'|stringformat:"s"%}
+                  
+                     <img src="{%static 'blog/images/document.png'%}">
+                 
+                  {%elif project.Type == 'Lifestyle'|stringformat:"s"%}
+                
+                      <img src="{%static 'blog/images/home.png'%}">
+                 
+                {%endif%} 
+                </div><hr >
+
+              <hr>
+              <h5 class="project_title"><a href="{%url 'post-detail' project.id%}"><img src="{%static 'blog/images/web.png'%}" height="25px"> {{ project.title }}</a></h5>
+              <h3 class="description"><a href="{%url 'user-posts' project.user.id%}"><img src="{{project.user.image.url}}" style="border-radius: 50%;" height="30px"> {{ project.user.username }}</a></h3>
+              <hr>
+              
+              <h2 class="description">{% octicon "paintcan" height="17" class="small" %} Domain Experience : <b>{{ project.get_Type_display }}</b><br><br>{% octicon "clock" height="20" class="small" %} Time Period : <b>{{ project.months}} months {{project.days}} days</b><br><br>{% octicon "pencil" height="17" class="small" %} <b>Skills Required : {{ project.skills_required}}</b></h2>
+              <hr>
+
+              <h4 class="text-center">Budget : <i class="fa fa-inr"> {{project.budget}}</i></h4>
+            </div>
+          </div>
+      {%endfor%}
+
+        </div>
+
+      </div>
+</section>
+{%endif%}

@@ -1,0 +1,24 @@
+{% for profile in profiles %}
+<tr class="container-fluid haha text-center my-5 mb-5" style="box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.10); ">
+    <td>
+    <h5>{{ profile.achievments }}</h5>
+    <h6>{{ profile.details }}</h6>
+    
+  
+    <button type="button"
+            class="btn btn-warning btn-sm js-update-profile"
+            data-url="{% url 'profile_update' profile.id %}">
+      <span class="glyphicon glyphicon-pencil"></span> Edit
+    </button>
+    <button type="button"
+            class="btn btn-danger btn-sm js-delete-profile"
+            data-url="{% url 'profile_delete' profile.id %}">
+      <span class="glyphicon glyphicon-trash"></span> Delete
+    </button>
+    </td>
+</tr>
+{% empty %}
+  <tr>
+    <td colspan="8" class="text-center mb-4" style="color:black;"><h5>No Achievments Added</h5></td>
+  </tr>
+{% endfor %}

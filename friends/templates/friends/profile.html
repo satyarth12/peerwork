@@ -1,0 +1,71 @@
+{% extends 'blog/base.html' %}
+{%load static%}
+
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{%static 'blog/user_profile.css'%}">
+	<div class="container text-center" style="margin-top: 130px;">
+	{% if request.user == u %}	
+		<div class="container-fluid mb-5" style=" box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;">
+			<h2>Sent Requests To Work</h2>
+			{%if sent_friend_requests%}
+				<div class="row">
+					{% for s_request in sent_friend_requests %}
+					  <div class="col-sm-4 mb-4">
+					    <div class="card" style=" box-shadow: 0 15px 10px #777;">
+					      <div class="card-body">
+					        <h6 class="card-title">{{s_request.project.title}}</h6>
+					        <h6><strong>To: </strong>{{s_request.to_user.username}}</h6>
+					        <p class="card-text">My Pitch: <small>{{s_request.pitch}}</small></p>
+					        <a href="{%url 'post-detail' s_request.project.slug%}" class="badge badge-warning"><strong>Review Project </strong></a>
+					      </div>
+					    </div>
+					  </div>
+					{% endfor %}
+				</div>
+			{%else%}
+				<h5 class="my-4" style="color: #161748;">No Request Sent</h5>
+			{%endif%}
+		</div>
+
+		<div class="container-fluid" style=" box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;">
+		<h2>Requests Received For Project</h2>
+		{%if rec_friend_requests%}
+			{% for r_request in rec_friend_requests %}
+				
+	                <div class="inbox-widget">
+	                    <div class="inbox-item row mb-4">
+	                    	<div class="col-lg-10">
+	                            <div class="inbox-item-img"><img src="{{ r_request.from_user.image.url}}" class="rounded-circle" alt=""></div>
+	                            <p class="inbox-item-author"style="color: black;">From: <strong><a href="{%url 'user-posts' r_request.from_user.id%}">{{ r_request.from_user.username}} </a>| {%for title in r_request.from_user.userprofile.professional_title.all %}
+	                            	<a href="javascript:void();" class="badge badge-dark badge-pill"> {{title}}</a>
+	                        	{%endfor%}</strong></p>
+	                            <p class="my-3">For Project: <a href="{%url 'post-detail' r_request.project.id%}" style="color: black;"><strong>{{r_request.project.title}}</strong></a></p>
+	                            <h6><small>Pitch: </small>{{r_request.pitch}}</h6>
+	                        </div>
+	                        <div class="col-lg-2">
+	                        	<small><a class='btn' style="background-color: #161748; color: white;" href="/friend/friend-request/accept/{{ r_request.from_user.id }}">Accept</a></small>
+	                  			<small><a class='btn btn-danger' href="/friend/friend-request/delete/{{ r_request.from_user.id }}">Reject</a></small>
+	                        </div>
+	                    </div>
+	       			</div>
+
+	          	<hr>
+			{% endfor %}
+		{%else%}
+			<h5 class="my-4" style="color: $161748;">No Request Received</h5>
+		{%endif%}
+		</div>
+
+	{% else %}
+
+		{% if button_status == 'not_friend' %}
+			<small><a class='btn btn-primary' href="/friend/friend-request/send/{{ u.id }}">Add Friend</a></small>
+		{% elif button_status == 'friend_request_sent' %}
+			<small><a class="btn btn-warning" href="/friend/friend-request/cancel/{{ u.id }}">Cancel Request</a></small>
+		{% endif %}
+
+	{% endif %}
+
+	</div>
+
+{% endblock %}

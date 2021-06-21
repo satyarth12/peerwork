@@ -1,0 +1,116 @@
+{%extends 'blog/base2.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" href="{%static 'blog/authasset/fonts/material-icon/css/material-design-iconic-font.min.css'%}">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="{%static 'blog/authasset/css/style.css'%}">
+<style type="text/css">
+    .is-invalid{
+    background-color: #c53151;
+    color: white;
+    font-weight: 600;
+    }
+
+    .showPassword{
+        cursor: pointer;
+        transition: all;
+    }
+    .showPassword:hover{
+        transform: scale(1.1);
+    }
+
+</style>
+<div class="main">
+    <div class="container text-center">   
+    {% for field in form.visible_fields %}
+        {% if field.errors %}
+            <ul>
+
+            {% for error in field.errors %}
+                <li class="text-center"><p class=" label label-danger"><strong>{{field.name|capfirst}}</strong> : {{ error }}</p></li>
+            {% endfor %}
+            </ul>
+
+        {% endif %}
+    {% endfor %}        
+    </div>                                    
+
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container" style="box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22);">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form" id="register" action="{%url 'register'%}">
+                          {% csrf_token %}
+                            <div class="form-group">
+                                <label for="id_email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="id_email" placeholder="Your Email"/ required>
+                            </div>
+
+                            <div class="emailfeedbackArea invalid-feedback" style="display:none;">
+                                    
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_username"><i class="zmdi zmdi-face material-icons-name"></i></label>
+                                <input type="text" name="username" id="id_username" placeholder="Your Username"/ required>
+                            </div>
+                            <div class="invalid-feedback" style="display:none;">
+                                    
+                            </div>
+                            <p class="text-sm text-success usernamesuccess"></p>
+
+                             <div class="form-group">
+                                <label for="id_first_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="first_name" id="id_first_name" placeholder="Your First Name"/ required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="id_last_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="last_name" id="id_last_name" placeholder="Your Last Name"/>
+                            </div>
+
+                            
+
+                            <div class="form-group">
+                                <label for="id_password1"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password1" id="id_password1" placeholder="Password"/>
+                                <small class="float-right pr-2 showPassword" style="font-weight: 700;">SHOW</small>
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="id_password2"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="password2" id="id_password2" placeholder="Confirm your password"/ required>
+                            </div>
+
+                            <div class="form-group">
+                                <input type="checkbox" name="agree-term" id="id_agree-term"  />
+                                <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register"/>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image">
+                        <figure><img src="{%static 'blog/images/register.svg'%}" alt="sing up image"></figure>
+                        <a href="{%url 'login'%}" class="signup-image-link"><mark>I am already a member</mark></a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+    </div>
+
+
+
+<script src="{%static 'blog/js/register.js'%}"></script>
+
+{%endblock content%}	
+
+

@@ -1,0 +1,440 @@
+{%extends 'blog/base2.html'%}
+{%load crispy_forms_tags%}
+{% load mathfilters %}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" type="text/css" href="{%static 'blog/user_profile.css'%}">
+<style>
+body{
+  background:#F6F6F8;
+}
+
+#div_id_pitch{
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 1.3rem;
+}
+#id_pitch{
+  font-weight: 600;
+    color: #0062cc;
+}
+.button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #161748;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 15px;
+  padding: 10px;
+  width: 160px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  color: #FFFFFF;
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+  color: #FFFFFF;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+.la {
+  
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 50px;
+}
+
+.card-box{
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ha{
+  color: black;
+}
+#div_id_link,#div_id_reason {
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 1.3rem;}
+
+#id_link,#id_reason{
+  font-weight: 600;
+    color: #0062cc;
+  }
+</style>	
+
+  
+  {%if final_submission.done and object.user == user%}
+  <div class="jumbotron container" style="margin-top: 100px; box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1) inset;">
+    <div class="container text-center">
+      <h1 class="display-4">Project Is Completed!</h1>
+      <p class="lead">Congratulations! This project has been succesfully verified and marked as completed by you.</p>
+      <hr>
+      {%if object.user == user and not reviews%}
+      <h6>{%include 'blog/rating_form.html'%}</h6>
+      {%else%}
+      <div class="col-sm-6 container">
+        <div class="card" style=" box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.20); border-radius: 5px;">
+          <div class="card-title">
+            <h5><strong>Your Review : <a href="{%url 'delete-rating' reviews.pk%}" class="badge badge-warning">Delete</a></strong></h5>
+          </div>
+          <div class="card-body">
+            {{reviews.reaction}} || {{reviews.rating}}
+            <p>{{reviews.review}}</p>
+          </div>
+        </div>
+      </div>
+      {%endif%}
+    </div>
+  </div>
+  {%endif%}
+    
+
+<div class="ha container" style="margin-top: 100px;">
+  {%if project_exists and object.user == user%}
+    <div class="alert alert-danger text-center my-3" role="alert">
+      <h4 class="alert-heading"><strong>Payment Pending !</strong></h4>
+      <p>Please deposit <strong>Rs. {{object.budget}} + charges</strong> to Peerwork as security to start working with <small><strong><a href="{%url 'user-posts' project_exists.doer_user.id%}">{{project_exists.doer_user.username}}</a></strong></small></p>
+       <form action="{% url 'create_order' object.slug %}" method="POST">
+      {% csrf_token %}
+      <fieldset>
+        <div  class="personal-details">
+          <div>
+            <div><label><strong>Total Payment </strong></label> <input type="number" name="price" required readonly value="{{object.budget}}" disabled></div>
+
+          </div>
+
+        </div>
+      </fieldset>
+
+      <button type="submit" class="button btn-secondary" >Create Order</button>
+    </form>
+      <h6><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#cancel_orderdModal">Canel Order</button> <small style="color: black;">You will cancel your project assignment with {{project_exists.doer_user.username}}</small></h6>
+      <!-- Modal For Order Cancelation-->
+        <div class="modal fade" id="cancel_orderdModal" tabindex="-1" role="dialog" aria-labelledby="cancel_orderdModal" aria-hidden="true" style="color: black;">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="cancel_orderdModal">Are you sure you want to cancel the order?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" style="font:bold;">
+                <small>Project:  </small><strong>{{project_exists.ongoing_project}}</strong>
+                <p><small>Assigned To: </small><strong>{{project_exists.doer_user.username}}</strong></p>
+                <a href="{%url 'cancel_order' object.slug %}" class="badge badge-danger">Cancel Order</a>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+  {%elif project_exists_payment and object.user == user%}
+    {%if not final_submission.done%}
+        <div class="jumbotron" style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1);">
+          <h3 class="display-5">Project is Live! </h3>
+          <p class="lead">You've successfully deposited the money for this project. Your work with <strong>{{project_exists_payment.doer_user.username}}</strong> is Live!  </p>
+          <p><strong>NOTE:</strong> Please ask for current project's invoice at peerwork.me@gmail.com, if not yet received </p>
+          <hr class="my-4">
+        
+          <button type="button" class="button btn-secondary" data-toggle="modal" data-target="#exampleModal">
+          {{project_exists_payment.doer_user.username}} Details
+        </button>
+      {%if request_submission.request_submit%}
+        <a href="javascript:void();" class="badge badge-dark badge-pill"> Requested For Submission</a>
+
+      {%else%}
+        {%if total_submission.count != 2%}
+          <a href="{%url 'request_submission' object.slug %}" class="badge badge-dark badge-pill"> Ask for submission </a>
+          <small style="color: black;"><strong> Remaining submission request: {{2|sub:total_submission.count}}</strong></small>
+        {%else%}
+          <small style="color: black;"><strong>Sorry, you can't ask for more submisssions</strong></small>
+        {%endif%}
+        {%if final_submission%}
+        <div class="text-center my-3" style="background-color: white; color: black;">
+        <h6 style="color: grey;">Latest GitHub Link Available For Project Verification:</h6>
+        <h6 class="my-3"><strong>{{final_submission.link}}</strong></h6>
+        <h6 class="mb-3"><small>Click <button type="button" class="btn btn-info" data-toggle="modal" data-target="#satisfiedModal">Satisfied</button> only after you're truly satisifed by the submission</small> <small>else, ask for Re-Submission</small></h6>
+        <strong>NOTE: </strong><small>In case of any disagreement or out of submission request please contact to Peerwork for further process</small>
+        </div>
+        {%endif%}
+
+        {%if request_submission%}
+          {%if not request_submission.request_submit%}
+          <div class="text-center my-2" style="background-color: white; color: black;">
+            <p>{{project_exists_payment.doer_user.username}} : <strong>"{{request_submission.reason}}"</strong></p>
+            {%if request_submission.granted%}
+            <h6 style="color: #0062cc;">You've granted time to {{project_exists_payment.doer_user.username}}.</h6>
+            {%else%}
+            <a href="{%url 'grant_time' object.slug%}"><button class="btn btn-warning mb-3">Grant Time</button></a> 
+            {%endif%}
+          </div>
+          {%endif%}
+        {%endif%}
+      {%endif%}
+      <!-- Modal For Doer's Details-->
+          <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: black;">
+            <div class="modal-dialog">
+            <div class="modal-content"> 
+                    <div class="modal-body">
+                    <center>
+                    <img src="{{project_exists_payment.doer_user.image.url}}" name="aboutme" width="140" height="140" border="0" class="img-circle"></a>
+                    <h3 class="media-heading">{{project_exists_payment.doer_user.first_name}} {{project_exists_payment.doer_user.last_name}}</h3> 
+                    </center>
+                    <hr>
+                    <center>
+                    <p class="text-left"><strong>Email: </strong><br>
+                        {{project_exists_payment.doer_user}}</p>
+                    <p class="text-left"><strong>Phone: </strong><br>
+                        {{project_exists_payment.doer_user.phone}}</p>
+                    </center>
+                </div>
+                <div class="modal-footer">
+                    <center>
+                    <a href="{%url 'user-posts' project_exists_payment.doer_user.id%}"><button type="button" class="btn btn-secondary">View Full Profile</button></a>
+                    </center>
+                </div>
+            </div>
+        </div>
+          </div>
+       <!-- Modal For Final Satisfied Submission-->
+          <div class="modal fade" id="satisfiedModal" tabindex="-1" role="dialog" aria-labelledby="satisfiedModalLabel" aria-hidden="true" style="color: black;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h6 class="modal-title text-center" id="satisfiedModalLabel">Are you sure you want to release the payment ?</h6>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="font:bold;">
+                  <p><small><strong>Payment to be released: </small>Rs. {{project_exists_payment.ongoing_project.budget}} </strong></p>
+                  <p>To: <strong>{{project_exists_payment.doer_user.username}} | {{project_exists_payment.doer_user.first_name}}  {{project_exists_payment.doer_user.last_name}}</strong></p> 
+                  <a href="{%url 'release_payment' object.slug %}"><button class="btn btn-success">Release</button></a>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+    {%endif%}
+
+  {%elif project_exists_payment and project_exists_payment.doer_user == user%}
+    {%if not request_submission.request_submit and not request_submission.granted%}
+
+      {%if request_submission%}
+      <div class="alert alert-primary text-center" role="alert" style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;">
+          <strong>You have asked for time for completing the project!</strong>
+      </div>
+      {%else%}
+      <div class="alert alert-warning text-center" role="alert" style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;">
+        {%if final_submission.done%}
+        <h6>Congratulations! This project has been succesfully verified and marked as completed by the admin.</h6>
+        <p>{{project_exists_payment.admin_user}} has released your payment. Peerwork is verifying the request</p>
+          Kindly check your mail regarding the withdrawl of the payment.
+        {%elif request_submission%}
+          You have succesfully the GitHub repository link. Kindly wait for the admin's verification results.
+        {%else%}
+          Upload the project link, if requested by the admin
+        {%endif%}
+      </div>
+      {%endif%}
+
+  {%elif request_submission.request_submit%}
+    <div class="alert alert-primary text-center" role="alert" style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1);">
+      {%if total_submission%}
+        <strong style="color: black;">* {{project_exists_payment.admin_user.username}} has requested for project submission <small style="color: red"> since the last submission wasn't verified.</small></strong>
+      {%else%}
+        <strong style="color: red;">* {{project_exists_payment.admin_user.username}} has requested for project submission</strong>
+      {%endif%}
+      <p style="color: black;">{{request_submission.reason}}</p>
+      <form method="POST" action="{% url 'final_submission' object.slug %}" id="RawProjectForm" class="my-3">
+        {% csrf_token %}
+        <div class="form-group text-center">
+          {{RawProjectForm.link|as_crispy_field}}
+        </div>
+        <button class="btn btn-secondary" type="submit">Submit</button>
+      </form>
+
+      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#reasonModal">
+       Ask for more time.
+      </button>
+      <!-- Modal -->
+          <div class="modal fade" id="reasonModal" tabindex="-1" role="dialog" aria-labelledby="reasonModalLabel" aria-hidden="true" style="color: black;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Provide a valid reason for asking more time.</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" style="font:bold;">
+                  <form method="POST" action="{% url 'request_submission' object.slug %}" id="Submit">
+                    {% csrf_token %}
+                      <div class="form-group">
+                        {{Submit.reason|as_crispy_field}}
+                      </div>
+                      <button class="btn btn-secondary" type="submit">Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+    </div>
+    {%else%}
+      {%if request_submission.granted and not request_submission.request_submit%}
+      <div class="alert alert-primary text-center" role="alert" style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1);" >
+        <h6>* {{project_exists_payment.admin_user.username}} has granted more time to complete the project</h6>
+      </div>
+      {%endif%}
+    {%endif%}
+  {%endif%}
+
+
+
+
+
+
+  <div class="card-box my-4 pl-4" style="background-color: #659DBD">
+    <h4 class="header-title mt-0"><span class="float-left mr-3"><img src="{{object.user.image.url}}" alt="" class="thumb-lg rounded-circle"></span>Project Title: <mark>{{object.title}}</mark></h4>
+    <p><font face="Verdana" size="4">Domain Type: </font><font face="Verdana" size="3">{{object.Type}} </font></p>
+    <div class="panel-body">
+        <div class="text-left">
+                    
+            <p class="font-13" style="color: black;"><strong>Posted by: </strong> <span class="m-l-5"><span class="flag-icon flag-icon-us m-r-5 m-t-0" title="us"></span> <span> {{object.user.first_name}}</span> </span><span class="m-l-5"><span class="flag-icon flag-icon-de m-r-5" title="de"></span> <span>{{object.user.last_name}}</span> </span><span class="m-l-5"><span class="flag-icon flag-icon-es m-r-5" title="es"></span> <span>| on {{object.date_posted}}</span> </span><span class="m-l-5"><span class="flag-icon flag-icon-fr m-r-5" title="fr"></span> <span> </span></span>
+            </p>
+            <hr>
+            <ul class="text-center social-links list-inline mt-4 mb-0">
+              <li class="list-inline-item pr-5">Stipend : <strong>Rs. {{object.budget}}</strong></li>
+              <li class="list-inline-item pr-5">Expertise : <strong>{%for sub in object.sub_type.all%} <a href="javascript:void();" class="badge badge-danger badge-pill"> {{sub}}</a> {%endfor%}</strong></li>
+              <li class="list-inline-item pr-5">Project's Time Period: <strong>{{object.months}} Months and {{object.days}} Days</strong></li>
+            </ul>
+
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="container" style="margin-top: 50px;">
+  <div class="card-box my-4">
+    <h3 class="text-center mb-5">Further Project  Details</h3>
+    <div class="panel-body my-3 pl-4">
+        <font face="Verdana" size="4">About the Project : </font>
+        <h5 class="mb-5">{{object.requirements|linebreaks}}</h5>
+
+        <font face="Verdana" size="4">Requirements and Role of the Employee Student : </font>
+        <h5 class="mb-5">{{object.role|linebreaks}}</h5>
+
+        <font face="Verdana" size="4">Skills Required : </font>
+        <h5 class="mb-5">{{object.skills_required}}</h5>
+
+        <font face="Verdana" size="4">Project Stipend : </font>
+        <h5 class="mb-5">. Rs {{object.budget}} stipend</h5>
+
+        <font face="Verdana" size="4">Extra Benefits : </font>
+        <h5 class="mb-5">. {{object.benefits|linebreaks}}</h5>
+
+    </div>
+    
+    {%if not final_submission.done%}
+      {%if object.user != user%}
+        <hr>
+        <div class="text-center">
+        {%if object.user != user and only_email%}
+        <a class="btn btn-danger" href="{%url 'verify'%}" style="width: 450px;font-weight: 600"><span>You Need To <strong>Verify Your Student Document</strong> To Apply</span></a>
+
+        {%elif object.user != user and no_verify%}
+          <a class="btn btn-danger" href="{%url 'verify'%}" style="width: 450px;font-weight: 600"><span>You Need To <strong>Verify Your Student Document</strong> To Apply</span></a>
+
+        {%elif object.user != user and only_verify%}
+          <a class="btn btn-danger" href="#" style="width: 450px;font-weight: 600"><span>You Need To <strong>Confirm Your Email</strong> To Apply</span></a>
+
+        {%elif object.user != user and nothing%}
+          <a class="btn btn-danger" href="#" style="width: 660px;font-weight: 600"><span>You Need To <strong>Confirm Your Email</strong> And <strong>Verify Your Student Document</strong> To Apply</span></a>
+
+        {%else%}
+          {%if friend_list%}
+          <a class="btn btn-danger" href="{%url 'canel-request' object.slug%}" style="width: 450px;font-weight: 600"><span>Cancel Request</span></a>
+          {%elif project_exists%}
+           <div class="alert alert-danger text-center my-3" role="alert"  style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;">
+              <h6>Congratulations, Project Admin has accepted your request to work.</h6>
+              <h5><strong>Project Admin has not deposited the money yet !</strong></h5>          
+          </div>
+          {%elif project_exists_payment and project_exists_payment.doer_user == user%}
+            <div class="alert alert-success text-center my-3" role="alert"  style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 60px rgba(0, 0, 0, 0.1) inset;">
+              <h5>Money has been deposited by {{project_exists_payment.admin_user.username}}. You work with them is live.</h5>
+              <button type="button" class="button btn-secondary" data-toggle="modal" data-target="#exampleModal">
+                {{project_exists_payment.admin_user.username}}'s Details
+              </button>
+              <!-- Modal -->
+                  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="color: black;">
+                    <div class="modal-dialog" role="document">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">{{project_exists_payment.admin_user.username}}'s Details: </h5>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                        <div class="modal-body" style="font:bold;">
+                          <p>Name: {{project_exists_payment.admin_user.first_name}} {{project_exists_payment.admin_user.last_name}}</p>
+                          <p>Email: {{project_exists_payment.admin_user}}</p> 
+                          <p>Phone: {{project_exists_payment.admin_user.phone}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+          {%elif project_exists_payment or project_exists%}
+          <h6 style="color: red;"><strong>Sorry you can't apply for this project as it is already been assigned and live.</strong></h6>
+          {%else%}
+            {%if user.phone%}
+              <form method="POST" action="{% url 'friend-request' object.slug %}" id="FriendRequestForm">
+                {% csrf_token %}
+                <div class="form-group">
+                  {{FriendRequestForm.pitch|as_crispy_field}}
+                </div>
+                <h6>Tips:</h6>
+                      <p><strong>- Convince the admin that why your are worthy of being hired by pitching yourself</strong></p>
+                      <p><strong>- Summarize your pitch which should include your services for this project.</strong></p>
+                      <p><strong>- Also, tell the admin about your due dates for the project.</strong></p>
+                <button class="button btn-secondary" type="submit">Apply For Project</button>
+              </form>
+            {%else%}
+              <h6>You profile is not yet completed.</h6>
+              <strong>Missing Detail: Phone Number</strong>
+            {%endif%}
+          {%endif%}
+        {%endif%}
+        </div>
+      {%endif%}
+    {%endif%}
+  </div>
+</div>
+
+{%endblock content%}	 
+

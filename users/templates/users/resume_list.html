@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+  <h1 class="page-header" style="margin-top: 100px;">Resume Content</h1>
+
+  <p>
+    <button type="button"
+            class="btn btn-primary js-create-education"
+            data-url="{% url 'edu_create' %}">
+      <span class="glyphicon glyphicon-plus"></span>
+      New book
+    </button>
+  </p>
+
+
+
+
+  <table class="table" id="resume-table">
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Author</th>
+      <th>Type</th>
+      <th>Publication date</th>
+      <th>Pages</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% include 'users/education/partial_education_list.html' %}
+  </tbody>
+</table>
+
+  <!-- THE MODAL WE WILL BE USING -->
+  <div class="modal fade" id="modal-education">
+    <div class="modal-dialog">
+      <div class="modal-content">
+      </div>
+    </div>
+
+
+{% endblock %}

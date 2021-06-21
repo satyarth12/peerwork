@@ -1,0 +1,249 @@
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{%static 'blog/profile.css'%}">
+<script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="{%static 'blog/docsupport/example-styles.css'%}">
+
+<style type="text/css">
+  .is-invalid{
+    background-color: #c53151;
+    color: white;
+    font-weight: 600;
+    }
+
+</style>
+<div class="container-fluid" style="margin-top: 120px;">
+
+
+<div class="container" style="margin-top: 50px;">
+<div class="row">
+<div class="container emp-profile" id="successMessage">
+      {%if messages%}
+          {%for message in messages%}
+            <div class="alert alert-{{message.tags}}">{{message}}</div>
+          {%endfor%}
+        {%endif%}
+        
+        
+      
+            
+        </div>     
+</div>
+</div>
+
+<div class="row">
+        <div class="col-lg-4">
+          <div class="profile-card-4 z-depth-3">
+          <form class="form" method="POST" enctype="multipart/form-data" id="UserUpdateForm">
+            {%csrf_token%}
+
+              {% for field in u_form.visible_fields %}
+                {% if field.errors %}
+                  <div class="alert alert-danger" role="alert">
+                    <ul>
+                      {% for error in field.errors %}
+                        <li class="text-center"><small><strong>{{field.name|capfirst}}</strong> : {{ error }}</small></li>
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% endif %}
+              {% endfor %}
+            <div class="card">
+              <div class="card-body text-center bg-primary rounded-top">
+                <div class="user-box">
+                  <img src="{{user.image.url}}" alt="user avatar">
+                </div>
+                <h5 class="mb-1 text-white">{{user.first_name}} {{user.last_name}}</h5>
+                <h6 class="text-light">{%for tag in user.userprofile.professional_title.all%} <span class="badge badge-pill badge-warning">{{tag}}</span> {%endfor%}</h6>
+              </div>
+              <div class="card-body">
+                    <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                      <div class="col-lg-9">
+                        <input type="email" class="form-control" name="email" id="id_email" placeholder="you@email.com" value="{{user.email}}" title="Sorry, you cannot change your email for now" readonly="">
+                      </div>
+
+                    </div>
+                  <div class="form-group row" >
+                      <label class="col-lg-3 col-form-label form-control-label">Username</label>
+                      <div class="col-lg-9">
+                          <input type="text" class="form-control" name="username" id="id_username" placeholder="username" title="Enter your username" value="{{user.username}}">
+                      </div>
+                       
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                      <div class="col-lg-9">
+                          <input type="text" class="form-control" name="first_name" id="id_first_name" placeholder="first name" title="Enter your first name." value="{{user.first_name}}" required>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                      <div class="col-lg-9">
+                          <input type="text" class="form-control" name="last_name" id="id_last_name" placeholder="last name" title="Enter your second name, if any." value="{{user.last_name}}">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Gender</label>
+                      <div class="col-lg-9">
+                       <select class="form-control" name="gender" id="id_gender"  placeholder="What is your Gender?" autocomplete="off">
+                            <option selected="">{{user.gender}}</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Phone Number</label>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control" name="phone" id="id_phone" placeholder="enter phone" title="Enter your phone number if any." value="{{user.phone}}" required>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Profile Picture</label>
+                      <div class="col-lg-9">
+                          <input type="file" name="image" id="id_image" value="{{user.image}}">
+                      </div>
+                  </div>
+
+                    <div class="form-group row">
+                        <div class="col-lg-9">
+                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                        </div>
+                    </div>
+                        
+                       
+
+                </form>
+                <hr>
+                <div class="row text-center mt-4">
+                  <div class="col p-2">
+                   <h4 class="mb-1 line-height-5">{{projects_count}}</h4>
+                    <small class="mb-0 font-weight-bold">Projects</small>
+                   </div>
+                    <div class="col p-2">
+                      <h4 class="mb-1 line-height-5">2.2k</h4>
+                     <small class="mb-0 font-weight-bold">Followers</small>
+                    </div>
+                    <div class="col p-2">
+                     <h4 class="mb-1 line-height-5">9.1k</h4>
+                     <small class="mb-0 font-weight-bold">Views</small>
+                    </div>
+                 </div>
+               </div>
+               <div class="card-footer text-center">
+                 <a href="javascript:void()" class="btn-social btn-facebook waves-effect waves-light m-1"><i class="fa fa-facebook"></i></a>
+                 <a href="javascript:void()" class="btn-social btn-google-plus waves-effect waves-light m-1"><i class="fa fa-google-plus"></i></a>
+                 <a href="javascript:void()" class="list-inline-item btn-social btn-behance waves-effect waves-light"><i class="fa fa-behance"></i></a>
+                 <a href="javascript:void()" class="list-inline-item btn-social btn-dribbble waves-effect waves-light"><i class="fa fa-dribbble"></i></a>
+               </div>
+             </div>
+           </div>
+          
+        </div>
+        <div class="col-lg-8">
+           <div class="card z-depth-3">
+            <div class="card-body">
+            <ul class="nav nav-pills nav-pills-primary nav-justified">
+                <li class="nav-item">
+                    <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active show" style="background-color: #161748; color: white;"><i class="icon-user"></i> <span class="hidden-xs" >Preview</span></a>
+                </li>
+            </ul>
+            <div class="tab-content p-3">
+                <div class="tab-pane active show" id="profile">
+                    <h4 class="mb-3 my-2">User Dashboard : <a href="{%url 'user_profile'%}" class="badge badge-dark badge-pill">Edit</a></h4>
+                    <div class="container" style="color: #464866;">
+                      <h6 >{{user.userprofile.about_me|linebreaks}}</h6>
+                    </div>
+                    <hr>
+                    <div class="row my-4">
+                        <div class="col-md-6">
+                            <h6>Professional Title :</h6>
+                            <p> 
+                                {%for tag in user.userprofile.professional_title.all%}
+                                <a href="javascript:void();" class="badge badge-dark badge-pill"> {{tag}}</a>
+                                {%endfor%}
+                            </p>
+                            <hr>
+                            <h6>Course :</h6>
+                            <p>
+                                <span class="badge badge-danger"><i class="fa fa-eye"></i> {{user.userprofile.get_course_display}}</span>
+                            </p>
+                            <hr>
+                            <h6>Language Proficiency : </h6>
+                            <p> 
+                                
+                                  <span class="badge badge-secondary"><i class="fa fa-language"></i> {{ user.userprofile.languages }}</span>
+                            </p>
+                            <hr>
+                        </div>
+                        <div class="col-md-6">
+                            <h6>My Core Domain is: </h6>
+                            <span class="badge badge-success"><i class="fa fa-cog"></i> {{user.userprofile.get_experience_display}}</span>
+                            <hr>
+                            <h6>Average Rate/Project :</h6>
+                              <strong><i class="fa fa-money"></i> Rs.{{user.userprofile.rate}}  <small>|| Avg. Rate/project on the basis of your profile evaluation by yourself.</small> </strong>
+                            <hr>
+                            <h6>GitHub Detail : </h6>
+                              <p>
+                                <strong><i class="fa fa-github"></i> {{user.userprofile.github_username}}</strong>
+                            </p>
+                            <hr>
+                        </div>
+                        <div class="col-md-12">
+                          <h6>Location : </h6>
+                          <strong><i class="fa fa-globe"></i> {{user.userprofile.city}}</strong>
+                          <hr>
+                        </div>
+                        <div class="col-md-12">
+                            <h5 class="mt-2 mb-3"><span class="fa fa-clock"></span> Recent Activities</h5>
+                            <table class="table table-hover table-striped">
+                                <tbody>                                    
+                                    <tr>
+                                        <td>
+                                            <strong>Abby</strong> joined ACME Project Team in <strong>`Collaboration`</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Gary</strong> deleted My Board1 in <strong>`Discussions`</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>Kensington</strong> deleted MyBoard3 in <strong>`Discussions`</strong>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <strong>John</strong> deleted My Board1 in <strong>`Discussions`</strong>
+                                        </td>
+                                    </tr>
+                              
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!--/row-->
+                </div>
+            </div>
+        </div>
+      </div>
+      </div>
+        
+    </div>
+</div>
+
+
+<script src="{%static 'blog/js/profileupdate.js'%}"></script>
+
+{%endblock%}
+

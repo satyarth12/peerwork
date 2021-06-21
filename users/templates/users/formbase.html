@@ -1,0 +1,107 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>NewBiz Bootstrap Template - Index</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{%static 'blog/images/img/favicon.png'%}" rel="icon">
+  <link href="{%static 'blog/images/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{%static 'blog/assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/animate.css/animate.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/ionicons/css/ionicons.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/owl.carousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/venobox/venobox.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="{%static 'blog/assets/css/style.css'%}" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css'%}">
+
+  <!-- =======================================================
+  * Template Name: NewBiz - v2.0.0
+  * Template URL: https://bootstrapmade.com/newbiz-bootstrap-business-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container">
+
+      <div class="logo float-left">
+        <!-- Uncomment below if you prefer to use an text logo -->
+        <!-- <h1 class="text-light"><a href="#header"><span>NewBiz</span></a></h1> -->
+        <a href="/" class="scrollto"><img src="{%static 'blog/images/img/logo.png' %}" alt="" class="img-fluid"></a>
+      </div>
+  </header><!-- #header -->
+
+ 
+
+    <main role="main" class="container-fluid">
+    <div class="container-fluid my-5">
+      
+        {%if messages%}
+          {%for message in messages%}
+            <div class="alert alert-{{message.tags}}">{{message}}</div>
+          {%endfor%}
+        {%endif%}
+        {% block content %}{% endblock %}
+        
+
+    
+   </div>
+  </main>
+
+
+  <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+    <script src="https//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="{%static 'blog/assets/vendor/mobile-nav/mobile-nav.js'%}"></script>
+    <script>
+     $(document).ready(function(){
+      {%block jquery%}
+
+      {%endblock%}
+
+     });
+    </script>
+
+<footer>
+  <div class="container-fluid padding mb-3">
+    <div class="row text-center">
+      <div class="col-md-6">
+        <hr class="light">
+        <h6>&copy;Peerlancer.com</h6>
+      </div>
+      <div class="col-6 social padding">
+        <hr class="light">
+        <a href="#" ><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-google-plus-g"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

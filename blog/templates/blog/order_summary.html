@@ -1,0 +1,124 @@
+{%extends 'blog/base.html'%}
+{% load static %}
+
+{%block content%}
+<div style="margin-top: 200px;">
+{%if status%}
+<div class="container alert alert-primary text-center" role="alert">
+  A copy of this invoice has been sent to your verified mail, <strong>if not received then mail at peerwork.me@gmail.com</strong>
+  <button class="btn btn-secondary" id="pdf">Print</button>
+</div>
+	<div class="pdfcontent container">
+  <div class="card">
+<div class="card-header">
+Invoice Id: 
+<strong>{{invoice_id}}</strong> 
+  <span class="float-right"> <strong>Status:</strong> {{status}}</span>
+
+</div>
+<div class="card-body">
+<div class="row mb-4">
+<div class="col-sm-6">
+<h6 class="mb-3">From:</h6>
+<div>
+<strong>{{admin_user.first_name}} {{admin_user.last_name}}</strong>
+</div>
+<div>{{admin_user.username}}</div>
+<div>Role in Project: <strong>Project Admin</strong></div>
+<div>Email: {{admin_user}}</div>
+<div>Phone: {{admin_user.phone}}</div>
+</div>
+
+<div class="col-sm-6">
+<h6 class="mb-3">Project Details:</h6>
+<div>
+<strong>{{project}}</strong>
+</div>
+<div>Project's Freelancer Details: </div>
+<div>{{doer_user.first_name}} {{doer_user.last_name}} || {{doer_user.username}}</div>
+<div>Email: {{doer_user}}</div>
+<div>Phone: {{doer_user.phone}}</div>
+</div>
+
+
+
+</div>
+
+<div class="table-responsive-sm">
+<table class="table table-striped">
+<thead>
+<tr>
+<th class="center">#</th>
+<th>Item</th>
+<th>Description</th>
+
+<th class="right">Total</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="center">1</td>
+<td class="left">Project Budget</td>
+<td class="left strong"><small>Project Name: </small>{{project}}</td>
+
+<td class="right">{{project.budget}}</td>
+</tr>
+<tr>
+<td class="center">2</td>
+<td class="left">Peerwork Service Charge</td>
+<td class="left">This is taken as a cut from the project's admin as peerwork platform charge</td>
+
+
+<td class="right">$3.000,00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="row">
+<div class="col-lg-4 col-sm-5">
+
+</div>
+
+<div class="col-lg-4 col-sm-5 ml-auto">
+<table class="table table-clear">
+<tbody>
+<tr>
+<td class="left">
+<strong>SubTotal</strong>
+</td>
+<td class="right">
+<strong>$7.477,36</strong>
+</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+</div>
+</div>
+</div>
+{%else%}
+	<div class="text-center">
+	<h5>You've refreshed the page.</h5>
+	<h6>Go to project's detail page for downloading the invoice, if you haven't.</h6>
+	</div>
+{%endif%}
+</div>
+
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type=”text/javascript” src=”http://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js”></script>
+<script type="text/javascript">
+	 $('#pdf').click(function(){
+            Popup($('.pdfcontent')[0].outerHTML);
+            function Popup(data) 
+            {
+                window.print();
+                return true;
+            }
+        });
+</script>
+{%endblock%}

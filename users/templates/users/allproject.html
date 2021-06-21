@@ -1,0 +1,134 @@
+{%extends 'blog/base.html'%}
+{%load static%}
+{%load octicons%}
+{%block content%}
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+		
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+		<link rel="stylesheet" href="{%static 'blog/students/style.css'%}">
+  </head>
+  <body>
+
+<style>
+  #services {
+  background:white;
+  box-shadow: 0px 0px 0px;
+}
+#services .project_title {
+  margin-left: 5px;
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 18px;
+  white-space: nowrap;
+
+}
+
+#services .title {
+  margin-left: 5px;
+  font-weight: 300;
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+
+
+.section-header h3 {
+  font-size: 36px;
+  color: #283d50;
+  text-align: center;
+  font-weight: 500;
+}
+
+.section-header p {
+  text-align: center;
+  margin: auto;
+  font-size: 15px;
+  padding-bottom: 60px;
+  color: #556877;
+  width: 50%;
+}
+.box h5,h3,h2,h4{
+  color: white;
+  font-size: 1.5rem;
+}
+
+.ya img{
+  height: 100px;
+}
+
+</style>
+    
+<div class="container-fluid" style="background-color: #161748;color: white; margin-top: 90px">
+    <legend class="text-center"><h2  style="color: white;"><img class="my-3" src="{%static 'blog/images/management.png'%}"> Find Projects To work On.</h2></legend>
+  </div>
+  
+  <div class='text-center col-12 col-md-6 mx-auto py-5'>
+    <form method='GET' class='my-3' action='.'>
+    
+        <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px; box-shadow: 0px 0px 3px;">
+            <span class="input-group-addon cfe-nav" style='color:#000'>
+              <i class="fa fa-search" aria-hidden="true" style="margin-left: 10px"> </i>
+            </span>
+            <input type="text" name="project" data-toggle="popover" data-placement="bottom" data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search projects based on the Tittle, Domain Type and Skills." value="" style="" data-original-title="" title="" autofocus="autofocus">
+             
+        </div>
+        
+
+    </form>
+
+    </div>
+
+</div>
+
+
+	
+<section id="services" class="section-bg my-5" >
+
+        {%if query%}
+          <h4 class='text-center my-0 py-0'>Showing project results for <b>{{ query }}</b></h4>
+        
+        {%else%}
+          {%if queryset%} 
+          <header class="section-header">
+            <h3>Projects For You</h3>
+            <hr class="container">
+          </header>
+          {%else%}
+            <header class="section-header">
+              <h3><b>Sorry, No Projects To Show Now.</b><br>Please Try Editing Your Pofile And Resume</h3>
+
+            </header>
+          {%endif%}
+        {%endif%}
+        
+
+      <div class="container-fluid">
+        <div class="row my-5">
+      {%for project in queryset%} 
+        
+          <div class="col-md-4 col-lg-4 wow bounceInUp" data-wow-duration="1.4s">
+            <div class="box" style="background-image:url('{%static 'blog/images/stars.jpg'%}');">
+              <h5 class="project_title"><a href="{%url 'post-detail' project.slug%}"><img src="{%static 'blog/images/web.png'%}" height="20px"> {{ project.title }}</a></h5>
+              <h3 style="font-size: 18px;"><a href="{%url 'user-posts' project.user.id%}"><img src="{{project.user.image.url}}" style="border-radius: 50%;" height="30px"> {{ project.user.username }}</a> {%if user.verify.check%} <span class="badge badge-pill badge-warning">Verified</span> {%endif%}</h3>
+              <hr>
+              
+              <h6 style="color: white;"><small>Expertise : </small><b>{{ project.get_Type_display }}</b> | {%for sub in project.sub_type.all%}<span class="badge badge-pill badge-light" style="color: black;">{{sub}}</span>{%endfor%}<br></h6>
+              <h6 style="color: white;"><br><small>Time Period : </small><b>{{ project.months}} months {{project.days}} days</b><br><br><b><small>Skills: <b style="white-space: nowrap;">{{ project.skills_required}}</b></small></b></h6>
+              <hr>
+              
+              <h4 class="text-center">Budget : <i class="fa fa-inr"> {{project.budget}}</i></h4>
+            </div>
+          </div>
+        
+        {%endfor%}
+
+        </div>
+
+      </div>
+</section>
+
+  </body>
+{%endblock content%}

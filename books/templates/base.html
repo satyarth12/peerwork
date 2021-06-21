@@ -1,0 +1,221 @@
+
+{% load static %}
+{% load octicons %}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Resume</title>
+
+    
+    <link href="{%static 'blog/images/img/favicon.png'%}" rel="icon">
+  
+    <link href="{%static 'blog/images/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+    <link href="{% static 'books/css/bootstrap.min.css' %}"  rel="stylesheet">
+
+    
+    <link href="{%static 'blog/styles/main.css' %}" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="{%static 'blog/assets/css/style.css'%}" rel="stylesheet">
+
+    <style>
+body {
+  font-family: "Lato", sans-serif;
+}
+
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #1F2833;
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 60px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 32px;
+  text-decoration: none;
+  font-size: 25px;
+  color: white;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: white;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+.dropdown-container {
+  display: none;
+  background-color: #262626;
+  padding-left: 8px;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 0;
+  right: 25px;
+  font-size: 36px;
+  margin-left: 50px;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+</style>
+  </head>
+  <body>
+  <div id="mySidenav" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" style="padding-left: 30px;"> &times;</a>
+  {%if user.is_authenticated%}
+  <a href="{%url 'blog-home'%}" class="scrollto">Home</a>
+  {%else%}
+  <a href="{%url 'blog-mainhome'%}" class="scrollto">Home</h2></a>
+  {%endif%}
+  <a href="{%url 'students'%}" class="scrollto">Find Students</a>
+  <a href="{%url 'blog-about'%}" class="scrollto">About Us</a>
+  <button class="dropdown-btn">Projects 
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <a href="{%url 'allproject'%}">Browse Projects</a>
+    <a href="#">My Projects</a>
+  </div>
+  <ul>
+  
+  
+</div>
+
+<span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
+
+<script>
+function openNav() {
+  document.getElementById("mySidenav").style.width = "250px";
+}
+
+function closeNav() {
+  document.getElementById("mySidenav").style.width = "0px";
+}
+
+
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+  this.classList.toggle("active");
+  var dropdownContent = this.nextElementSibling;
+  if (dropdownContent.style.display === "block") {
+  dropdownContent.style.display = "none";
+  } else {
+  dropdownContent.style.display = "block";
+  }
+  });
+}
+
+</script>
+
+
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+
+    <footer id="footer" style="margin-top: 200px;">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6 footer-info">
+            <h3>Peerwork</h3>
+            <p>{% octicon "check"  class="small" fill="white" %}  Peerwork is a platform where a student can post their project ideas to find skilled students ,from same instituion or any, and work with them.In exchange, the client student can offer some awards to working student.</p>
+            <p>{% octicon "check"  class="small" fill="white" %} Students can also buy and sell their pre-made projects to help other student community.</p>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <h4>Useful Links</h4>
+            <ul>
+              {%if user.is_authenticated%}
+                <li><a href="{%url 'blog-home'%}">Home</a></li>
+              {%else%}
+                <li><a href="{%url 'blog-mainhome'%}">Home</a></li>
+              {%endif%}
+              <li><a href="{%url 'blog-about'%}">About us</a></li>
+              <li><a href="#">Services</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+
+            </ul>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h4>Contact Us</h4>
+              <strong>Phone:</strong> +91 7800402316<br>
+              <strong>Email:</strong> lightyagami.6320@gmail.com<br>
+            </p>
+
+            <div class="social-links">
+              <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="instagram"><i class="fa fa-instagram"></i></a>
+              <a href="#" class="google-plus"><i class="fa fa-google-plus"></i></a>
+              <a href="#" class="linkedin"><i class="fa fa-linkedin"></i></a>
+            </div>
+
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-newsletter">
+            <h4>Our Newsletter</h4>
+            <p></p>
+            <form action="" method="post">
+              <input type="email" name="email"><input type="submit" value="Subscribe">
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong>Peerwork.in</strong> All Rights Reserved
+      </div>
+      <div class="credits">
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js" 
+        integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT" 
+        crossorigin="anonymous">
+</script>
+  
+    <script src="{% static 'books/js/jquery-3.2.1.min.js' %}" ></script>
+    <script src="{% static 'books/js/bootstrap.min.js' %}" ></script>
+    {% block javascript %}
+    {% endblock %}
+  </body>
+</html>

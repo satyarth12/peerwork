@@ -1,0 +1,64 @@
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/animate/animate.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/css-hamburgers/hamburgers.min.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/animsition/css/animsition.min.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/select2/select2.min.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/vendor/daterangepicker/daterangepicker.css'%}">
+<!--===============================================================================================-->
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/css/util.css'%}">
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/css/main.css'%}">
+<div class="container col-lg-6" style="margin-top: 100px;">
+
+			<form method="POST" enctype="multipart/form-data" class="contact100-form validate-form" id="ProfileCreateView">
+				{%csrf_token%}
+				<div class="container-fluid text-center mb-4">
+				{% for field in form.visible_fields %}
+			      {% if field.errors %}
+		      		<h2 style="color: red;">Errors</h2>
+		            <ul>
+		              {% for error in field.errors %}
+		                <li class="text-center"><small><mark>{{field.name|capfirst}}</mark> : {{ error }}</small></li>
+		              {% endfor %}
+		            </ul>
+		          {% endif %}
+			    {% endfor %}
+			    </div>
+
+				<span class="text-center contact100-form-title" style="margin-bottom: 50px;">
+					Achievments
+				</span>
+
+
+				<div class="wrap-input100 rs1-wrap-input100 validate-input" data-validate="Organisation is required">
+					<span class="label-input100">Achievments</span>
+					<input class="input100 text" type="text" name="achievments" placeholder="Your Achievment, in title." id="id_achievments" value="{{object.achievments}}" required>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100 validate-input" data-validate = "Description is required">
+					<span class="label-input100">Details</span>
+					<textarea class="input100" name="details" placeholder="Describe Your Achievment in a fun and brief way to felx about?" id="id_details" required>{{object.details}}</textarea>
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" type="submit">
+						<span>
+							Submit
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+						</span>
+					</button>
+				</div>
+			</form>
+			
+</div>	
+
+
+{%endblock%}

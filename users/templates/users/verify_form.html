@@ -1,0 +1,65 @@
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+<link rel="stylesheet" type="text/css" href="{%static 'blog/user_profile.css'%}">
+ <link rel="stylesheet" type="text/css" href="{% static 'blog/resume/css/main.css'%}">
+
+
+<style type="text/css">
+	body{
+	background:#F6F6F8;
+}
+</style>
+
+
+
+<div class="container-fluid col-lg-6" style="margin-top: 150px;box-shadow: 5px 5px 30px 7px rgba(0,0,0,0.25), -5px -5px 30px 7px rgba(0,0,0,0.22); border-radius: 20px; background-color: white;">
+	<h2 class="text-center my-3">Upload Student ID</h2>
+	{%if is_verify%}
+	<div class="content-section my-5">
+		<mark>
+		<h4 class="text-center"><mark>Thankyou for the document submission.</mark></h4>
+
+		<h4 class="text-center my-5"><mark>Your Document is under verification. You will get notified under 24 hrs.</mark></h4>
+		</mark>
+	</div>
+	{%else%}
+	<h6 class="text-center"><mark><strong> - Please Upload only the College or Student ID card</strong></mark></h6>
+	<div class="content-section my-5"> 
+	  <form method="POST" enctype="multipart/form-data">
+	  		{%csrf_token%}
+  				{{form.name|as_crispy_field}}
+	  			<div class="form-row">
+			      <div class="form-group col-md-6 pr-5 mb-0">
+			        {{form.image1|as_crispy_field}}
+			      </div>
+			      <div class="form-group col-md-6 mb-0">
+			        {{form.image2|as_crispy_field}}
+			      </div>
+			    </div>
+
+			    <div class="my-5 pl-3">
+		    		<h6>Tips:</h6>
+		    		<p><strong>- Please upload a clear and complete image</strong></p>
+		    		<p><strong>- Your full name, Institute name and validity should be visible</strong></p>
+		    		<p><strong>- If your back ID is blank you can upload the blank side as well</strong></p>
+			    </div>
+	  		
+	  		<div class="container-contact100-form-btn my-4" style="justify-content: flex-end; display: flex;">
+				<button class="contact100-form-btn mb-2" type="submit">
+					<span>
+						Submit
+						<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
+					</span>
+				</button>
+			</div>
+	  	</form>	
+	</div>
+	{%endif%}
+
+</div>
+
+
+
+{%endblock content%}	

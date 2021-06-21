@@ -1,0 +1,143 @@
+{%load static%}
+{% load octicons %}
+ 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0">
+
+  <title>Peerwork</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="{%static 'blog/images/img/favicon.png'%}" rel="icon">
+  <link href="{%static 'blog/images/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Montserrat:300,400,500,700" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="{%static 'blog/assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/font-awesome/css/font-awesome.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/animate.css/animate.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/ionicons/css/ionicons.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/owl.carousel/assets/owl.carousel.min.css'%}" rel="stylesheet">
+  <link href="{%static 'blog/assets/vendor/venobox/venobox.css'%}" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+
+  <link href="{%static 'blog/assets/css/style.css'%}" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+  <link rel="stylesheet" type="text/css" href="{% static 'blog/main.css'%}">
+
+
+  
+    {% block stylesheet %}{% endblock stylesheet %}
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container">
+
+      <div class="logo float-left">
+        {%if user.is_authenticated%}
+        <a href="{%url 'blog-home'%}"  class="scrollto" style="text-decoration: none;"><h2 style="font-weight: 700; color: #161748; text-decoration: none;">Peerwork</h2></a>
+        {%else%}
+          <a href="{%url 'blog-mainhome'%}" class="scrollto" style="text-decoration: none;"><h2 style="font-weight: 700; color: #161748;">Peerwork</h2></a>
+        {%endif%}
+      </div>
+
+      <nav class="main-nav float-right d-none d-lg-block">
+        <ul>
+      {%if user.is_authenticated%}
+          <li><a href="{%url 'post-create'%}" style="background-color:#161748 ; color: white; font-weight: 700; border-radius:5%;">Post Project</a></li>
+          <li class="drop-down"><a href=""><div class="icon"><i class="ion-android-bulb"  style="color:#4056A1;"></i> Projects</div></a>
+            <ul>
+              
+              <li><a href="{%url 'allproject'%}"> <i class="ion-search"  style="color:#4056A1;"></i> Browse Projects</a></li>
+              <li><a href="{%url 'list'%}" style="font-weight: 600;"><i class="ion-wand"  style="color:#4056A1;"></i> My Posted Projects </a></li>
+              <li><a href="#" style="color: black; font-weight: 700;"> <i class="ion-bag"  style="color:#4056A1;"></i> Freelancing Projects </a>
+
+              </li>
+            </ul>
+          </li>
+          <li><a href="{%url 'students'%}"><div class="icon"><i class="ion-search"  style="color:#4056A1;"></i> Find Students</div></a></li>
+          <li><a href="{%url 'blog-about'%}"><div class="icon"><i class="ion-book"  style="color:#4056A1;"></i> About Us</div></a></li>
+          <li><a href="{%url 'invite' user.id%}"><div class="icon"><i class="ion-magnet"  style="color:#4056A1;"></i> Requests</div></a></li>
+          <li class="drop-down"><a href=""><div class="icon"><i class="ion-person"  style="color:#4056A1;"></i> Hi {{user.username}}</div></a>
+            <ul>
+              <li><a href="{%url 'profile'%}"><i class="ion-code"  style="color:#4056A1;"></i> Profile</a></li>
+              <li><a href="{%url 'resume'%}"><i class="ion-pricetags"  style="color:#4056A1;"></i> Resume</a></li>
+              <li><a href="{%url 'wallet'%}"><i class="ion-card"  style="color:#4056A1;"></i> Wallet</a>
+              <li><a href="{%url 'logout'%}"><i class="ion-log-out"  style="color:#4056A1;"></i> Logout</a>
+                <ul>
+                  <li><a href="#"></a></li>
+                </ul>
+              </li>
+              
+            </ul>
+          </li>
+          
+          
+        {%else%}
+          <li class="active"><a href="{%url 'blog-mainhome'%}">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="{%url 'login'%}">Login</a></li>
+            <li><a href="{%url 'register'%}">Register</a></li>
+        {%endif%} 
+        </ul>
+      </nav><!-- .main-nav -->
+
+    </div>
+  </header><!-- #header -->
+
+ 
+
+    <main role="main" class="container-fluid">
+    <div class="container-fluid ">
+      
+        
+        {% block content %}{% endblock %}
+        
+
+    
+   </div>
+  </main>
+  <a href="#" class="back-to-top"><i class="fa fa-chevron-up"></i></a>
+
+  <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
+  
+    <script src="{%static 'blog/assets/vendor/jquery/jquery.min.js'%}"></script>
+    <script src="{%static 'blog/assets/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+    <script src="{%static 'blog/assets/vendor/jquery.easing/jquery.easing.min.js'%}"></script>
+    <script src="{%static 'blog/assets/vendor/mobile-nav/mobile-nav.js'%}"></script>
+    <script src="{%static 'blog/assets/vendor/wow/wow.min.js'%}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src='https://code.jquery.com/jquery-3.2.1.min.js'></script>
+    <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+
+    {% block javascript %}
+    {% endblock javascript%}
+    <script>
+     $(document).ready(function(){
+      {%block jquery%}
+
+      {%endblock%}
+
+     });
+    </script>
+
+
+</body>
+</html>

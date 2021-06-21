@@ -1,0 +1,129 @@
+{% extends "blog/base.html" %}
+{% load class_name %}
+{% block content %}
+{%load octicons%}
+{%load static%}
+
+<div class="container-fluid" style="background-color: #161748;color: white; margin-top: 90px">
+    <legend class="text-center"><h2  style="color: white;"><img class="my-3" src="{%static 'blog/images/learning.png'%}" height="100px"> Find students to work for your project </h2></legend>
+  </div>
+  
+  <div class='text-center col-12 col-md-6 mx-auto py-5'>
+    {%if query%}
+        <h3 class='my-0 py-0'>{{ count }} results for <b>{{ query }}</b></h3>
+      {%endif%}
+    <form method='GET' class='my-3' action='.'>
+    
+        <div class="input-group form-group-no-border mx-auto" style="margin-bottom: 0px; font-size: 32px;">
+            <span class="input-group-addon cfe-nav" style='color:#000'>
+                <i class="fa fa-search" aria-hidden="true"> </i>
+            </span>
+            <input type="text" name="q" data-toggle="popover" data-placement="bottom" data-content="Press enter to search" class="form-control cfe-nav mt-0 py-3" placeholder="Search students based on their Names, Professional Title and Skills" value="" style="" data-original-title="" title="" autofocus="autofocus">
+        </div>
+
+    </form>
+
+    </div>
+
+</div>
+
+
+        
+        
+
+
+
+{% for object in object_list %}
+    {% with object|class_name as klass %}
+      {% if klass == 'Account' %}
+           <div class="card my-3">
+              <div class="row">
+                <div class="col-md-3" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+                  <div class="card-body cc-education-header" >
+                    <img src="{{object.image.url}}" height="128px" width="132px">
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                  <div class="card-body">
+              
+                    <div class="h5">{% octicon "person"  class="small" %}  <a href="{%url 'user-posts' object.id%}">{{object.first_name}} {{object.last_name}} 
+                      {%for Check in verify%}
+                        {%if object.user.Check.check%}
+                       <span class="pro">Verified</span>
+                        {%endif%}
+                      {%endfor%}</a> </div>
+                    <h6 class="category">{% octicon "smiley"  class="small" %} {{object.username}}</h6>
+                    <h6 style="font-weight: 800">{% octicon "flame"  class="small" %} {{object.professional_title}}</h6>
+                    {%if object.city%}
+                      <p>{% octicon "location"  class="small" %} {{object.city}}</p>
+                    {%endif%}
+                    {%for pref in preference_list%}
+                      <p>{{user.pref.freelancing}}</p> 
+                    {%endfor%}
+
+                    <p>{% octicon "quote"  class="small" %} {{ object.about_me}}</p>
+                    <p></p>
+                  </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                  <div class="card-body">
+                    {%if object.rate%}
+                    <div class="h5"><i class="fa fa-inr"></i> {{object.rate}} / hour</div>
+                    {%endif%}
+                    <p><h6><a href="#"><button class="btn" style="background-color:#161748; color: white;">Contact Me</button></a></h6></p>
+                
+                  </div>
+                </div>
+              </div>
+            </div>
+
+      {% elif klass == 'Preference' %}
+      
+      
+           <div class="card">
+              <div class="row">
+                <div class="col-md-3" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
+                  <div class="card-body cc-education-header" >
+                    <img src="{{object.user.image.url}}" height="128px" width="132px">
+                  </div>
+                </div>
+                <div class="col-md-6" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                  <div class="card-body">
+              
+                    <div class="h5">{% octicon "person"  class="small" %}  <a href="{%url 'user-posts' object.id%}">{{object.user.first_name}} {{object.user.last_name}}</a> </div>
+                    <h6 class="category">{% octicon "smiley"  class="small" %} {{object.username}}</h6>
+                    <h6 style="font-weight: 800">{% octicon "flame"  class="small" %} {{object.user.professional_title}}</h6>
+                    {%if object.user.city%}
+                      <p>{% octicon "location"  class="small" %} {{object.city}}</p>
+                    {%endif%}
+                    <p>{{object.freelancing}}</p> 
+                    <p>{% octicon "quote"  class="small" %} {{ object.user.about_me}}</p>
+                    <p></p>
+                  </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
+                  <div class="card-body">
+                    {%if object.user.rate%}
+                    <div class="h5"><i class="fa fa-inr"></i> {{object.user.rate}} / hour</div>
+                    {%endif%}
+                    <p><h6><a href="#"><button class="btn" style="background-color:#161748; color: white;">Contact Me</button></a></h6></p>
+                
+                  </div>
+                </div>
+              </div>
+            </div>
+      
+      
+      {% else %}
+           <div class='row'>
+             <div class='col-12 col-lg-8 offset-lg-4'>
+                <a href='{{ object.get_absolute_url }}'>{{ object }} | {{ object|class_name }}</a>
+            </div>
+           </div>
+        {% endif %}
+        
+    {% endwith %}
+    
+{% empty %} 
+{% endfor %}
+{% endblock content %}

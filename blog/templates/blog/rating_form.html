@@ -1,0 +1,36 @@
+{%load crispy_forms_tags%}
+<strong>Rate <mark>{{project_exists_payment.doer_user.username}}</mark> according to their performance</strong>
+<button type="button" class="btn" data-toggle="modal" data-target="#modalPoll-1" style="background-color: #45A29E; color: white; box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);" >Rate User</button>
+
+<!-- Modal: modalPoll -->
+<div class="modal fade right" id="modalPoll-1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true" data-backdrop="false">
+  <div class="modal-dialog modal-full-height modal-right modal-notify modal-info" role="document">
+    <div class="modal-content" style="box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 40px rgba(0, 0, 0, 0.1);">
+      <!--Header-->
+      <!--Body-->
+      <div class="modal-body">
+        <div class="text-center">
+          <i class="far fa-file-alt fa-4x mb-3 animated rotateIn"></i>
+          <p>
+            <strong>Your rating matters</strong>
+          </p>
+          <p>How was your experience with {{project_exists_payment.doer_user.username}}?
+          </p>
+        </div>
+
+        <hr>
+        <form method="POST" action="{% url 'user-rating' object.slug %}" id="ReviewForm">
+          {% csrf_token %}
+          <div class="form-group">
+          {{ReviewForm.reaction|as_crispy_field}}
+          {{ReviewForm.rating|as_crispy_field}}
+          {{ReviewForm.review|as_crispy_field}}
+          </div>
+          <button class="btn btn-secondary" type="submit">Submit</button>
+        </form>
+
+    </div>
+  </div>
+</div>
+<!-- Modal: modalPoll -->

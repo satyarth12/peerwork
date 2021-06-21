@@ -1,0 +1,262 @@
+{%extends 'blog/base.html'%}
+{%load crispy_forms_tags%}
+{%load static%}
+{%block content%}
+
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+ <link rel="stylesheet" href="//code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+<link href="{%static 'blog/js/slimselect.css'%}" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="{%static 'blog/profile.css'%}">
+<link rel="stylesheet" type="text/css" href="{%static 'blog/docsupport/example-styles.css'%}">
+
+<div class="container-fluid" style="margin-top: 120px;">
+
+
+<div class="container" style="margin-top: 50px;">
+<div class="row">
+<div class="container emp-profile" id="successMessage">
+      {%if messages%}
+          {%for message in messages%}
+            <div class="alert alert-{{message.tags}}">{{message}}</div>
+          {%endfor%}
+        {%endif%}
+        
+        
+      
+            
+        </div>     
+</div>
+</div>
+
+<div class="row">
+        <div class="col-lg-4">
+          <div class="profile-card-4 z-depth-3">
+            <div class="card">
+              <div class="card-body text-center bg-primary rounded-top">
+               <div class="user-box">
+                <img src="{{user.image.url}}" alt="user avatar">
+              </div>
+              <h5 class="mb-1 text-white">{{user.first_name}} {{user.last_name}}</h5>
+              <h6 class="text-light">{{user.professional_title}}</h6>
+             </div>
+              <div class="card-body">
+                    <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                      <div class="col-lg-9">
+                        <input type="email" class="form-control" name="email" id="id_email" placeholder="you@email.com" value="{{user.email}}" title="Sorry, you cannot change your email for now" readonly="">
+                      </div>
+
+                    </div>
+                  <div class="form-group row" >
+                      <label class="col-lg-3 col-form-label form-control-label">Username</label>
+                      <div class="col-lg-9">
+                          <input type="text" class="form-control" name="username" id="id_username" placeholder="username" title="Sorry, you cannot change your username for now." value="{{user.username}}" readonly="">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">First name</label>
+                      <div class="col-lg-9">
+                          <input type="text" class="form-control" name="first_name" id="id_first_name" placeholder="first name" title="Enter your first name." value="{{user.first_name}}" required readonly>
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Last name</label>
+                      <div class="col-lg-9">
+                          <input type="text" class="form-control" name="last_name" id="id_last_name" placeholder="last name" title="Enter your first name if any." value="{{user.last_name}}" readonly>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Gender</label>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control" name="gender" id="id_gender" value="{{user.gender}}" readonly>
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Phone Number</label>
+                      <div class="col-lg-9">
+                        <input type="text" class="form-control" name="phone" id="id_phone" placeholder="enter phone" title="Enter your phone number if any." value="{{user.phone}}" required readonly>
+                      </div>
+                  </div>	
+
+                        
+                <hr>
+                <div class="row text-center mt-4">
+                  <div class="col p-2">
+                   <h4 class="mb-1 line-height-5">{{projects_count}}</h4>
+                    <small class="mb-0 font-weight-bold">Projects</small>
+                   </div>
+                    <div class="col p-2">
+                      <h4 class="mb-1 line-height-5">2.2k</h4>
+                     <small class="mb-0 font-weight-bold">Followers</small>
+                    </div>
+                    <div class="col p-2">
+                     <h4 class="mb-1 line-height-5">9.1k</h4>
+                     <small class="mb-0 font-weight-bold">Views</small>
+                    </div>
+                 </div>
+               </div>
+               <div class="card-footer text-center">
+                 <a href="javascript:void()" class="btn-social btn-facebook waves-effect waves-light m-1"><i class="fa fa-facebook"></i></a>
+                 <a href="javascript:void()" class="btn-social btn-google-plus waves-effect waves-light m-1"><i class="fa fa-google-plus"></i></a>
+                 <a href="javascript:void()" class="list-inline-item btn-social btn-behance waves-effect waves-light"><i class="fa fa-behance"></i></a>
+                 <a href="javascript:void()" class="list-inline-item btn-social btn-dribbble waves-effect waves-light"><i class="fa fa-dribbble"></i></a>
+               </div>
+             </div>
+           </div>
+          
+        </div>
+        <div class="col-lg-8">
+           <div class="card z-depth-3">
+            <div class="card-body">
+            <ul class="nav nav-pills nav-pills-primary nav-justified">
+                <li class="nav-item">
+                    <a href="javascript:void();" data-target="#profile" data-toggle="pill" class="nav-link active show" style="background-color: #161748; color: white;"><i class="icon-user"></i> <span class="hidden-xs">Dashboard</span></a>
+                </li>
+
+            </ul>
+            <div class="tab-content p-3">
+                <div class="tab-pane active show" id="profile">
+                    <h4 class="mb-3 my-2">User Dashboard :</h4>
+                    <form class="form" method="POST" id="UserProfileForm">
+                    	{%csrf_token%}
+
+                    	{% for field in form.visible_fields %}
+		                {% if field.errors %}
+		                    <ul>
+		                      {% for error in field.errors %}
+		                        <li class="text-center"><small><mark>{{field.name|capfirst}}</mark> : {{ error }}</small></li>
+		                      {% endfor %}
+		                    </ul>
+		                  {% endif %}
+		              {% endfor %}
+                	<div class="form-group">
+                      <div class="col-lg-12">
+                      	<h6><i class="fa fa-cogs"></i> Self Intro</h6>
+                        <textarea name="about_me" cols="40" rows="8" maxlength="1000" class="textarea form-control" id="id_about_me" placeholder="About Me......">{{user.userprofile.about_me}}</textarea>
+                      </div>
+
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                      <div class="col-lg-12">
+                      	<h6><i class="fa fa-cogs"></i> Professional Title : <small> <strong>NOTE:</strong> || Selecting Professional Title Outside your CORE DOMAIN will reduce your chances of getting hired.</small></h6>
+                       	<input type="text" class="form-control" name="professional_title" id="id_professional_title" placeholder="What defines you best? (eg: Web Developer)" value="{%for tag in user.userprofile.professional_title.all%} {{tag}}, {%endfor%}"> 
+                         
+                      </div>
+
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                      <div class="col-lg-12">
+                        <h6><i class="fa fa-github"></i> GithHub Detail : <small> Provide either your GitHub username or account Link</small></h6>
+                        <input type="text" class="form-control" name="github_username" id="id_github_username" placeholder="GitHub username/account link" value="{{user.userprofile.github_username}}"> 
+                         
+                      </div>
+
+                    </div>
+                    <hr>
+                    <div class="row my-4">
+                        <div class="col-md-6">
+
+                            <h6> <i class="fa fa-graduation-cap"></i> Course : </h6>
+                            <small>current: {{user.userprofile.course}}</small>
+                           <select name="course" id="id_course" class="form-control">
+                                <option value="{{user.userprofile.course}}">{{user.userprofile.course}}</option>
+	                              <option value="Engineering">Engineering</option>
+	                              <option value="Studies Of Management">Studies Of Management</option>
+	                              <option value="Journalism And Mass Communication">Journalism And Mass Communication</option>
+	                              <option value="Arts And Humanities">Arts And Humanities</option>
+	                              <option value="Hotel & Hospitality Management">Hotel & Hospitality Management</option>
+	                              <option value="School Of Legal Studies">School Of Legal Studies</option>
+	                              <option value="(PhD) Doctor Of Philosophy">(PhD) Doctor Of Philosophy</option>
+
+
+	                         </select>
+                            <hr>
+                            <h6><i class="fa fa-language"></i> Language Proficiency : </h6>
+                            <small>current: {{user.userprofile.languages}}</small>
+                           	<input type="text" name="languages" id="id_languages" class="form-control" value="{{user.userprofile.languages}}" />	
+                            <hr>
+
+                            <h6><i class="fa fa-car"></i> Can You Travel For the project? : </h6>
+                            <small>current: {{user.userprofile.mobility}}</small>
+                            <select name="mobility" id="id_mobility" class="form-control">
+                              <option value="{{user.userprofile.mobility}}">{{user.userprofile.mobility}}</option>
+                              <option value="Yes">Yes</option>
+                              <option value="No">No (Work from home)</option>
+                              <option value="Yes but not oustation">Yes, but not oustation</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <h6><i class="fa fa-book"></i> My Core Domain is: </h6>
+                            <small>current: {{user.userprofile.experience}}</small>
+                            <select name="experience" id="id_experience" class="form-control">
+                              <option selected="{{user.userprofile.experience}}">{{user.userprofile.experience}}</option>
+                              <hr>
+                              <option value="Animation & Media">Animation & Media</option>
+                              <option value="Photography & Video">Photography & Video</option>
+                              <option value="Programming & Development">Programming & Development</option>
+                              <option value="Graphics & Design">Graphics & Design</option>
+                              <option value="Marketing">Marketing/Digital Marketing</option>
+                              <option value="Hospitality">Hospitality (Event/Hotel Management)</option>
+                              <option value="Soft Skills">Soft Skills</option>
+                              <option value="Customer Service">Customer Service</option>
+                              <option value="Legal">Law & Legals</option>
+                              <option value="Lifestyle">Gaming/Traveling/Cooking/Cultural and etc..</option>
+
+
+                            </select>
+
+
+                            <hr>
+                            <h6><i class="fa fa-money"></i> Average Rate/Project (INR)</h6>
+                            <small>Average Rate-per-project on the basis of your profile evaluation by yourself.</small> 
+                            <input class="form-control" value="{{user.userprofile.rate}}" name="rate" id="id_rate" type="int" placeholder="Zip code"/>
+                             
+                            <hr>
+                            <h6><i class="fa fa-globe"></i> Location : </h6>
+                            <small>current: {{user.userprofile.city}}</small>
+                              <select name="city" id="id_city" class="form-control" title="Enter your City." autocomplete="off">
+                                <option value="{{user.userprofile.city}}">{{user.userprofile.city}}</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Lucknow">Lucknow</option>
+                                <option value="Ambala">Ambala</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Noida">Noida</option>
+                                <option value="Gurgaon">Gurgaon</option>
+                                <option value="Rohtak">Rohtak</option>
+                                <option value="Rest of India">Rest Of India</option>
+                            </select>
+                          
+                            	
+                        </div>
+                        <div class="form-group my-5 text-center container">
+                        
+                          <button type="submit" class="btn btn-warning" style=" box-shadow:0 1px 4px rgba(0, 0, 0, 0.3), 0 0 80px rgba(0, 0, 0, 0.1);"><strong>Save Changes</strong></button>
+                        
+                        </div>
+                      </div>
+                        </form>
+                        
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      </div>
+        
+    </div>
+</div>
+
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+<script src="{%static 'blog/js/title.js'%}"></script>
+<script src="{%static 'blog/js/language.js'%}"></script>
+
+
+{%endblock%}
+
+
